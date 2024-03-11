@@ -14,4 +14,8 @@ public class Boardgame {
         this.maxPlayers = maxPlayers;
         this.avgGameDuration = avgGameDuration;
     }
+
+    public int getMaxPlayers() {
+        return maxPlayers;
+    }
 }
