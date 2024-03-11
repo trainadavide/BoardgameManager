@@ -18,4 +18,8 @@ public class Boardgame {
     public int getMaxPlayers() {
         return maxPlayers;
     }
+
+    public int getMinPlayers() {
+        return minPlayers;
+    }
 }
