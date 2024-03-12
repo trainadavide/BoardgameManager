@@ -7,19 +7,12 @@ import java.io.IOException;
 
 public class MainWindow {
     public MainWindow() {
-        JFrame f=new JFrame();//creating instance of JFrame
+        JFrame f = new JFrame();//creating instance of JFrame
         JLabel title = new JLabel("Boardgame Manager");
+        ImageIcon icon = new ImageIcon(".\\Assets\\Images\\BoardgameManagerIcon.png");
+        f.setIconImage(icon.getImage());
         title.setBounds(440,10,200,20);
-       /* File fontFile = new File("./Assets/Fonts/brocats/brocats.ttf");
-        Font titleFont = null;
-        try {
-            titleFont = Font.createFont(Font.TRUETYPE_FONT,fontFile);
-        } catch (FontFormatException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        title.setFont(titleFont);*/
+        title.setSize(200,20);
 
 
         f.add(title);//adding button in JFrame
