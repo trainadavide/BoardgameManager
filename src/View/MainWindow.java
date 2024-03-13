@@ -12,12 +12,21 @@ public class MainWindow {
         ImageIcon icon = new ImageIcon(".\\Assets\\Images\\BoardgameManagerIcon.png");
         f.setIconImage(icon.getImage());
         title.setBounds(440,10,200,20);
-        title.setSize(200,20);
+
+        JButton collection = new JButton("Collection");
+        collection.setBounds(350,50,100,50);
+        collection.setBackground(new Color(32,177,185,80));
+
+        JButton wishlist = new JButton("Wishlist");
+        wishlist.setBounds(530,50,100,50);
+        wishlist.setBackground(new Color(32,177,185,80));
 
 
-        f.add(title);//adding button in JFrame
+        f.add(title);
+        f.add(collection);
+        f.add(wishlist);
 
-        f.setSize(1000,700);//400 width and 500 height
+        f.setSize(1000,700);
         f.setLayout(null);//using no layout managers
         f.setVisible(true);//making the frame visible
         f.setResizable(false);
