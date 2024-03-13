@@ -2,34 +2,40 @@ package View;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 
-public class MainWindow {
+public class MainWindow extends JFrame{
     public MainWindow() {
-        JFrame f = new JFrame();//creating instance of JFrame
         JLabel title = new JLabel("Boardgame Manager");
         ImageIcon icon = new ImageIcon(".\\Assets\\Images\\BoardgameManagerIcon.png");
-        f.setIconImage(icon.getImage());
-        title.setBounds(440,10,200,20);
+        this.setIconImage(icon.getImage());
+        title.setBounds(140,10,200,20);
+        this.add(title);
 
-        JButton collection = new JButton("Collection");
-        collection.setBounds(350,50,100,50);
-        collection.setBackground(new Color(32,177,185,80));
+        JButton collection = new JButton();
+        collection.setText("Collection");
+        collection.setBounds(50,50,100,50);
+        this.add(collection);
 
-        JButton wishlist = new JButton("Wishlist");
-        wishlist.setBounds(530,50,100,50);
-        wishlist.setBackground(new Color(32,177,185,80));
+        JButton wishlist = new JButton();
+        wishlist.setText("Wishlist");
+        wishlist.setBounds(230,50,100,50);
+        this.add(wishlist);
 
+        collection.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CollectionWindow collectionWindow = new CollectionWindow();
+            }
+        });
 
-        f.add(title);
-        f.add(collection);
-        f.add(wishlist);
-
-        f.setSize(1000,700);
-        f.setLayout(null);//using no layout managers
-        f.setVisible(true);//making the frame visible
-        f.setResizable(false);
-        f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        this.setSize(400,170);
+        this.setLayout(null);//using no layout managers
+        this.setVisible(true);//making the frame visible
+        this.setResizable(false);
+        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 }
