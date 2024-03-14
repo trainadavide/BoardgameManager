@@ -28,8 +28,19 @@ public class MainWindow extends JFrame{
         collection.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 CollectionWindow collectionWindow = new CollectionWindow();
             }
+
+        });
+        wishlist.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                WishlistWindow WishlistWindow = new WishlistWindow();
+
+            }
+
         });
 
         this.setSize(400,170);

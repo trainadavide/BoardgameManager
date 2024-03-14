@@ -2,9 +2,9 @@ package View;
 
 import javax.swing.*;
 
-public class CollectionWindow extends JFrame {
-    public CollectionWindow(){
-        JLabel title = new JLabel("Collection");
+public class WishlistWindow extends JFrame {
+    public WishlistWindow(){
+        JLabel title = new JLabel("WishList");
         ImageIcon icon = new ImageIcon(".\\Assets\\Images\\BoardgameManagerIcon.png");
         this.setIconImage(icon.getImage());
         title.setBounds(330,10,200,20);
