@@ -12,7 +12,7 @@ public class MainWindow extends JFrame{
         JLabel title = new JLabel("Boardgame Manager");
         ImageIcon icon = new ImageIcon(".\\Assets\\Images\\BoardgameManagerIcon.png");
         this.setIconImage(icon.getImage());
-        title.setBounds(140,10,200,20);
+        title.setBounds(180,10,200,20);
         this.add(title);
 
         JButton collection = new JButton();
@@ -20,9 +20,14 @@ public class MainWindow extends JFrame{
         collection.setBounds(50,50,100,50);
         this.add(collection);
 
+        JButton players = new JButton();
+        players.setText("Players");
+        players.setBounds(200,50,100,50);
+        this.add(players);
+
         JButton wishlist = new JButton();
         wishlist.setText("Wishlist");
-        wishlist.setBounds(230,50,100,50);
+        wishlist.setBounds(350,50,100,50);
         this.add(wishlist);
 
         collection.addActionListener(new ActionListener() {
@@ -33,6 +38,16 @@ public class MainWindow extends JFrame{
             }
 
         });
+
+        players.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                PlayersWindow playersWindow = new PlayersWindow();
+            }
+
+        });
+
         wishlist.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -43,7 +58,7 @@ public class MainWindow extends JFrame{
 
         });
 
-        this.setSize(400,170);
+        this.setSize(500,180);
         this.setLayout(null);//using no layout managers
         this.setVisible(true);//making the frame visible
         this.setResizable(false);
