@@ -1,6 +1,8 @@
 package View;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class CollectionWindow extends JFrame {
     public CollectionWindow(){
@@ -11,6 +13,16 @@ public class CollectionWindow extends JFrame {
         this.add(title);
 
         JButton addBG = new JButton();
+
+        addBG.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                AddGameWindow addWindow = new AddGameWindow();
+            }
+
+        });
+
         addBG.setText("+");
         addBG.setBounds(715,600,50,50);
         this.add(addBG);
