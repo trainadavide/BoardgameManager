@@ -1,6 +1,11 @@
 package View;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import java.awt.*;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.sql.*;
 
 public class AddGameWindow extends JFrame{
@@ -12,6 +17,12 @@ public class AddGameWindow extends JFrame{
         Connection connection = null;
         ImageIcon icon = new ImageIcon(".\\Assets\\Images\\BoardgameManagerIcon.png");
         this.setIconImage(icon.getImage());
+
+        JScrollPane scrollPane = new JScrollPane();
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setBounds(0,0,400,600);
 
         try {
             // Carica il driver JDBC per PostgreSQL
@@ -26,22 +37,37 @@ public class AddGameWindow extends JFrame{
                 // Crea uno statement per eseguire la query
                 Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
                 //QUERY
+
                 ResultSet resultSet = statement.executeQuery("Select * from boardgame");
                 int i=1;
+                JPanel game = null;
                 while(resultSet.next()){
+                    game = new JPanel();
+                    game.setBounds(0,0,800,200);
                     resultSet.absolute(i);
                     JLabel title = new JLabel(resultSet.getString("name"));
                     title.setBounds(10,10*i,100,100);
-                    JLabel minP = new JLabel(resultSet.getString("minplayers"));
+                    JLabel minP = new JLabel("Giocatori: "+resultSet.getString("minplayers")+" - "+resultSet.getString("maxplayers"));
                     minP.setBounds(100,10*i,100,100);
-                    JLabel maxP = new JLabel(resultSet.getString("maxplayers"));
-                    maxP.setBounds(130,10*i,100,100);
-                    JLabel avgTime = new JLabel(resultSet.getString("avgduration"));
+                    JLabel avgTime = new JLabel("Durata: "+resultSet.getString("avgduration"));
                     avgTime.setBounds(160,10*i,100,100);
-                    this.add(title);
-                    this.add(minP);
-                    this.add(maxP);
-                    this.add(avgTime);
+
+                    URL imageURL = null;
+                    try {
+                        imageURL = new URL(resultSet.getString("image"));
+                    } catch (MalformedURLException e) {
+                        throw new RuntimeException(e);
+                    }
+                    ImageIcon img = new ImageIcon(imageURL);
+                    JLabel label = new JLabel(img);
+                    label.setBounds(0,0,100,100);
+                    game.add(label);
+
+
+                    game.add(title);
+                    game.add(minP);
+                    game.add(avgTime);
+                    panel.add(game);
                     i++;
                 }
 
@@ -66,7 +92,9 @@ public class AddGameWindow extends JFrame{
                 e.printStackTrace();
             }
         }
-
+        scrollPane.setViewportView(panel);
+        scrollPane.setBounds(0,0,780,680);
+        this.add(scrollPane, BorderLayout.CENTER);
         this.setSize(800,700);
         this.setLayout(null);//using no layout managers
         this.setVisible(true);//making the frame visible
