@@ -1,6 +1,8 @@
 package View;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class WishlistWindow extends JFrame {
     public WishlistWindow(){
@@ -13,6 +15,16 @@ public class WishlistWindow extends JFrame {
         JButton addBG = new JButton();
         addBG.setText("+");
         addBG.setBounds(715,600,50,50);
+
+        addBG.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                AddGameWindow addWindow = new AddGameWindow(false);
+            }
+
+        });
+
         this.add(addBG);
 
         this.setSize(800,700);

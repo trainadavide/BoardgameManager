@@ -13,8 +13,12 @@ public class AddGameWindow extends JFrame{
     private static final String USERNAME = "postgres";
     private static final String PASSWORD = "root";
 
-    public AddGameWindow(){
-        Connection connection = null;
+    private final boolean collection;
+
+    public AddGameWindow(boolean collection){
+
+        this.collection = collection;
+
         ImageIcon icon = new ImageIcon(".\\Assets\\Images\\BoardgameManagerIcon.png");
         this.setIconImage(icon.getImage());
 
@@ -24,13 +28,16 @@ public class AddGameWindow extends JFrame{
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setBounds(0,0,400,600);
 
+        final Connection connection;
+        try {
+            connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
         try {
             // Carica il driver JDBC per PostgreSQL
             Class.forName("org.postgresql.Driver");
-
-            // Effettua la connessione al database PostgreSQL
-            connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-
             // Se la connessione ha avuto successo
             if (connection != null) {
                 System.out.println("Connessione al database stabilita!");
@@ -46,11 +53,11 @@ public class AddGameWindow extends JFrame{
                     game.setBounds(0,0,800,200);
                     resultSet.absolute(i);
                     JLabel title = new JLabel(resultSet.getString("name"));
-                    title.setBounds(10,10*i,100,100);
+                    title.setBounds(10,0,100,100);
                     JLabel minP = new JLabel("Giocatori: "+resultSet.getString("minplayers")+" - "+resultSet.getString("maxplayers"));
-                    minP.setBounds(100,10*i,100,100);
+                    minP.setBounds(10,10,100,100);
                     JLabel avgTime = new JLabel("Durata: "+resultSet.getString("avgduration"));
-                    avgTime.setBounds(160,10*i,100,100);
+                    avgTime.setBounds(100,10,100,100);
 
                     URL imageURL = null;
                     try {
@@ -63,11 +70,14 @@ public class AddGameWindow extends JFrame{
                     label.setBounds(0,0,100,100);
                     game.add(label);
 
+                    JButton add = new JButton("+");
+                    add.setBounds(600,0,50,50);
 
                     game.add(title);
                     game.add(minP);
                     game.add(avgTime);
                     panel.add(game);
+                    panel.add(add);
                     i++;
                 }
 
