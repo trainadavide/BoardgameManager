@@ -1,6 +1,11 @@
 package View;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import java.awt.*;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.sql.*;
 
 public class AddGameWindow extends JFrame{
@@ -8,40 +13,71 @@ public class AddGameWindow extends JFrame{
     private static final String USERNAME = "postgres";
     private static final String PASSWORD = "root";
 
-    public AddGameWindow(){
-        Connection connection = null;
+    private final boolean collection;
+
+    public AddGameWindow(boolean collection){
+
+        this.collection = collection;
+
         ImageIcon icon = new ImageIcon(".\\Assets\\Images\\BoardgameManagerIcon.png");
         this.setIconImage(icon.getImage());
+
+        JScrollPane scrollPane = new JScrollPane();
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setBounds(0,0,400,600);
+
+        final Connection connection;
+        try {
+            connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
         try {
             // Carica il driver JDBC per PostgreSQL
             Class.forName("org.postgresql.Driver");
-
-            // Effettua la connessione al database PostgreSQL
-            connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-
             // Se la connessione ha avuto successo
             if (connection != null) {
                 System.out.println("Connessione al database stabilita!");
                 // Crea uno statement per eseguire la query
                 Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
                 //QUERY
+
                 ResultSet resultSet = statement.executeQuery("Select * from boardgame");
                 int i=1;
+                JPanel game = null;
                 while(resultSet.next()){
+                    game = new JPanel();
+                    game.setBounds(0,0,800,200);
                     resultSet.absolute(i);
                     JLabel title = new JLabel(resultSet.getString("name"));
-                    title.setBounds(10,10*i,100,100);
-                    JLabel minP = new JLabel(resultSet.getString("minplayers"));
-                    minP.setBounds(100,10*i,100,100);
-                    JLabel maxP = new JLabel(resultSet.getString("maxplayers"));
-                    maxP.setBounds(130,10*i,100,100);
-                    JLabel avgTime = new JLabel(resultSet.getString("avgduration"));
-                    avgTime.setBounds(160,10*i,100,100);
-                    this.add(title);
-                    this.add(minP);
-                    this.add(maxP);
-                    this.add(avgTime);
+                    title.setBounds(10,0,100,100);
+                    JLabel minP = new JLabel("Giocatori: "+resultSet.getString("minplayers")+" - "+resultSet.getString("maxplayers"));
+                    minP.setBounds(10,10,100,100);
+                    JLabel avgTime = new JLabel("Durata: "+resultSet.getString("avgduration"));
+                    avgTime.setBounds(100,10,100,100);
+
+                    URL imageURL = null;
+                    try {
+                        imageURL = new URL(resultSet.getString("image"));
+                    } catch (MalformedURLException e) {
+                        throw new RuntimeException(e);
+                    }
+                    ImageIcon img = new ImageIcon(imageURL);
+                    JLabel label = new JLabel(img);
+                    label.setBounds(0,0,100,100);
+                    game.add(label);
+
+                    JButton add = new JButton("+");
+                    add.setBounds(600,0,50,50);
+
+                    game.add(title);
+                    game.add(minP);
+                    game.add(avgTime);
+                    panel.add(game);
+                    panel.add(add);
                     i++;
                 }
 
@@ -66,7 +102,9 @@ public class AddGameWindow extends JFrame{
                 e.printStackTrace();
             }
         }
-
+        scrollPane.setViewportView(panel);
+        scrollPane.setBounds(0,0,780,680);
+        this.add(scrollPane, BorderLayout.CENTER);
         this.setSize(800,700);
         this.setLayout(null);//using no layout managers
         this.setVisible(true);//making the frame visible
