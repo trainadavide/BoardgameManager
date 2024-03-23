@@ -1,8 +1,6 @@
 package View;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -47,10 +45,11 @@ public class AddGameWindow extends JFrame{
 
                 ResultSet resultSet = statement.executeQuery("Select * from boardgame");
                 int i=1;
-                JPanel game = null;
+                JPanel game;
                 while(resultSet.next()){
                     game = new JPanel();
-                    game.setBounds(0,0,800,200);
+                    game.setBounds(0,0,400,200);
+                    game.setBorder(BorderFactory.createLineBorder(Color.black));
                     resultSet.absolute(i);
                     JLabel title = new JLabel(resultSet.getString("name"));
                     title.setBounds(10,0,100,100);
@@ -59,7 +58,7 @@ public class AddGameWindow extends JFrame{
                     JLabel avgTime = new JLabel("Durata: "+resultSet.getString("avgduration"));
                     avgTime.setBounds(100,10,100,100);
 
-                    URL imageURL = null;
+                    URL imageURL;
                     try {
                         imageURL = new URL(resultSet.getString("image"));
                     } catch (MalformedURLException e) {
@@ -76,8 +75,8 @@ public class AddGameWindow extends JFrame{
                     game.add(title);
                     game.add(minP);
                     game.add(avgTime);
+                    game.add(add);
                     panel.add(game);
-                    panel.add(add);
                     i++;
                 }
 
