@@ -14,6 +14,9 @@ public class PlayersWindow extends JFrame {
         addBG.setText("+");
         addBG.setBounds(715,600,50,50);
         this.add(addBG);
+        addBG.addActionListener(e -> {
+            CreatePlayerWindow createPlayerWindow = new CreatePlayerWindow();
+        });
 
         this.setSize(800,700);
         this.setLayout(null);//using no layout managers
