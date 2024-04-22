@@ -18,7 +18,11 @@ public class CollectionWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                AddGameWindow addWindow = new AddGameWindow(true);
+                try {
+                    AddGameWindow addWindow = new AddGameWindow(true);
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                }
             }
 
         });

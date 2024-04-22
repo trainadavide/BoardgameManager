@@ -1,5 +1,9 @@
 package View;
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import Control.AddPlayerControl;
+import Database.Database;
 
 public class CreatePlayerWindow extends JFrame{
     public CreatePlayerWindow(){
@@ -20,12 +24,19 @@ public class CreatePlayerWindow extends JFrame{
         JButton create = new JButton();
         create.setText("Create");
         create.setBounds(50,100,100,50);
-        this.add(create);
 
-        JButton cancel = new JButton();
-        cancel.setText("Cancel");
-        cancel.setBounds(200,100,100,50);
-        this.add(cancel);
+        create.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(AddPlayerControl.controlPlayer(nicknameField.getText())){
+                    Database.result("INSERT INTO players (nickname) VALUES ('" + nicknameField.getText() + "')");//Inserting the player into the
+                    JOptionPane.showMessageDialog(null, "Player created successfully");
+                    dispose();
+            }
+        }
+        });
+
+        this.add(create);
 
         this.setSize(400,200);
         this.setLayout(null);//using no layout managers

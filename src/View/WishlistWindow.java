@@ -19,8 +19,11 @@ public class WishlistWindow extends JFrame {
         addBG.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                AddGameWindow addWindow = new AddGameWindow(false);
+                try {
+                    AddGameWindow addWindow = new AddGameWindow(false);
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                }
             }
 
         });

@@ -6,8 +6,9 @@ public class Database {
     private static final String USERNAME = "postgres";
     private static final String PASSWORD = "root";
 
-    public static void main(String[] args) {
+    public static ResultSet result(String query) {
         Connection connection = null;
+        ResultSet resultSet = null;
 
         try {
             // Carica il driver JDBC per PostgreSQL
@@ -22,9 +23,10 @@ public class Database {
                 // Crea uno statement per eseguire la query
                 Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
                 //QUERY
-                ResultSet resultSet = statement.executeQuery("Select * from boardgame");
-                resultSet.absolute(1);
-                System.out.println(resultSet.getString("name"));
+                try {
+                    resultSet = statement.executeQuery(query);
+                }catch (SQLException e){}
+
             } else {
                 System.out.println("Connessione al database non riuscita!");
             }
@@ -46,5 +48,6 @@ public class Database {
                 e.printStackTrace();
             }
         }
+        return resultSet;
     }
 }

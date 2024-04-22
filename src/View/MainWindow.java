@@ -39,8 +39,10 @@ public class MainWindow extends JFrame{
         players.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                PlayersWindow playersWindow = new PlayersWindow();
+                try {
+                    PlayersWindow playersWindow = new PlayersWindow();
+                } catch (Exception exception) {
+                }
             }
 
         });
