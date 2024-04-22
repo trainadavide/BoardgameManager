@@ -2,11 +2,13 @@ package View;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
+
 import Control.AddPlayerControl;
 import Database.Database;
 
 public class CreatePlayerWindow extends JFrame{
-    public CreatePlayerWindow(){
+    public CreatePlayerWindow(PlayersWindow playersWindow){
         JLabel title = new JLabel("Create Player");
         ImageIcon icon = new ImageIcon(".\\Assets\\Images\\BoardgameManagerIcon.png");
         this.setIconImage(icon.getImage());
@@ -31,6 +33,12 @@ public class CreatePlayerWindow extends JFrame{
                 if(AddPlayerControl.controlPlayer(nicknameField.getText())){
                     Database.result("INSERT INTO players (nickname) VALUES ('" + nicknameField.getText() + "')");//Inserting the player into the
                     JOptionPane.showMessageDialog(null, "Player created successfully");
+                    try {
+                        PlayersWindow playersWindow1 = new PlayersWindow();
+                        playersWindow.dispose();
+                    } catch (SQLException ex) {
+
+                    }
                     dispose();
             }
         }

@@ -2,6 +2,8 @@ package View;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -27,9 +29,25 @@ public class PlayersWindow extends JFrame {
             player.setBounds(0, 0, 20, 20);
             player.setBorder(BorderFactory.createLineBorder(Color.black));
             resultSet.absolute(i);
+            JButton delete = new JButton("X");
+            delete.setName(resultSet.getString("nickname"));
+            delete.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    try {
+                        String nickname = delete.getName();
+                        Database.result("DELETE FROM players WHERE nickname = '" +nickname+ "';");
+                        PlayersWindow playersWindow = new PlayersWindow();
+                        dispose();
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
+                }
+            });
             JLabel nickname = new JLabel(resultSet.getString("nickname"));
             nickname.setBounds(10, 0, 20, 20);
             player.add(nickname);
+            player.add(delete);
             panel.add(player);
             i++;
         }
@@ -39,7 +57,7 @@ public class PlayersWindow extends JFrame {
         addBG.setText("+");
         addBG.setBounds(715,600,50,50);
         addBG.addActionListener(e -> {
-            CreatePlayerWindow createPlayerWindow = new CreatePlayerWindow();
+            CreatePlayerWindow createPlayerWindow = new CreatePlayerWindow(this);
         });
 
         this.add(panel);
