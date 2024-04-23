@@ -3,6 +3,7 @@ package View;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 public class MainWindow extends JFrame{
     public MainWindow() {
@@ -31,7 +32,11 @@ public class MainWindow extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                CollectionWindow collectionWindow = new CollectionWindow();
+                try {
+                    CollectionWindow collectionWindow = new CollectionWindow();
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
 
         });
@@ -51,7 +56,11 @@ public class MainWindow extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                WishlistWindow WishlistWindow = new WishlistWindow();
+                try {
+                    WishlistWindow WishlistWindow = new WishlistWindow();
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
 
             }
 

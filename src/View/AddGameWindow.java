@@ -2,15 +2,18 @@ package View;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.*;
 import Database.Database;
+import Control.AddCollectionControl;
 
 public class AddGameWindow extends JFrame {
     private final boolean collection;
 
-    public AddGameWindow(boolean collection) throws SQLException {
+    public AddGameWindow(boolean collection, JFrame window) throws SQLException {
 
         this.collection = collection;
 
@@ -51,6 +54,40 @@ public class AddGameWindow extends JFrame {
 
             JButton add = new JButton("+");
             add.setBounds(600, 0, 50, 50);
+            add.setName(resultSet.getString("id"));
+            add.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if(AddCollectionControl.controlCollection(Integer.parseInt(add.getName()))&&collection){
+                        Database.result("INSERT INTO collection (id) VALUES ("+ add.getName() + ")");
+                        try {
+                            CollectionWindow collectionWindow = new CollectionWindow();
+                        } catch (SQLException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                        JOptionPane.showMessageDialog(null, "Gioco aggiunto alla collezione");
+                        window.dispose();
+                        dispose();
+                    }
+                    else if(AddCollectionControl.controlWishlist(Integer.parseInt(add.getName()))&&!collection){
+                        Database.result("INSERT INTO wishlist (id) VALUES ("+ add.getName() + ")");
+                        try {
+                            WishlistWindow wishlistWindow = new WishlistWindow();
+                        } catch (SQLException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                        JOptionPane.showMessageDialog(null, "Gioco aggiunto alla wishlist");
+                        window.dispose();
+                        dispose();
+                    }
+                    else if(collection){
+                        JOptionPane.showMessageDialog(null, "Gioco già presente nella collezione");
+                    }
+                    else{
+                        JOptionPane.showMessageDialog(null, "Gioco già presente nella wishlist");
+                    }
+                }
+            });
 
             game.add(title);
             game.add(minP);
