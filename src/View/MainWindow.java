@@ -23,6 +23,11 @@ public class MainWindow extends JFrame{
         players.setBounds(200,50,100,50);
         this.add(players);
 
+        JButton match = new JButton();
+        match.setText("Match");
+        match.setBounds(200,125,100,50);
+        this.add(match);
+
         JButton wishlist = new JButton();
         wishlist.setText("Wishlist");
         wishlist.setBounds(350,50,100,50);
@@ -52,6 +57,17 @@ public class MainWindow extends JFrame{
 
         });
 
+        match.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    MatchWindow matchWindow = new MatchWindow();
+                } catch (Exception exception) {
+                }
+            }
+
+        });
+
         wishlist.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -66,7 +82,7 @@ public class MainWindow extends JFrame{
 
         });
 
-        this.setSize(500,180);
+        this.setSize(500,250);
         this.setLayout(null);//using no layout managers
         this.setVisible(true);//making the frame visible
         this.setResizable(false);
