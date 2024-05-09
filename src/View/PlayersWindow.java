@@ -21,7 +21,7 @@ public class PlayersWindow extends JFrame {
         panel.setBounds(0, 50, 400, 600);
         panel.setLayout(new GridLayout(10,20));
 
-        ResultSet resultSet = Database.result("SELECT * FROM players");
+        ResultSet resultSet = Database.result("SELECT * FROM Players");
         int i=1;
         JPanel player;
         while (resultSet.next()) {

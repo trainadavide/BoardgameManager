@@ -34,6 +34,21 @@ public class WishlistWindow extends JFrame {
             game.setBounds(0, 0, 400, 200);
             game.setBorder(BorderFactory.createLineBorder(Color.black));
             resultSet.absolute(i);
+            JButton delete = new JButton("X");
+            delete.setName(resultSet.getString("id"));
+            delete.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    try {
+                        String id = delete.getName();
+                        Database.result("DELETE FROM wishlist WHERE id = '" +id+ "';");
+                        WishlistWindow wishlistWindow = new WishlistWindow();
+                        dispose();
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
+                }
+            });
             JLabel name = new JLabel(resultSet.getString("name"));
             name.setBounds(10, 0, 100, 100);
             JLabel minP = new JLabel("Giocatori: " + resultSet.getString("minplayers") + " - " + resultSet.getString("maxplayers"));
@@ -54,6 +69,7 @@ public class WishlistWindow extends JFrame {
             game.add(name);
             game.add(minP);
             game.add(avgTime);
+            game.add(delete);
             panel.add(game);
             i++;
         }
