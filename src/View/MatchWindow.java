@@ -25,9 +25,15 @@ public class MatchWindow extends JFrame {
 
 
 
-
+        JButton addBG = new JButton();
+        addBG.setText("+");
+        addBG.setBounds(715,600,50,50);
+        addBG.addActionListener(e -> {
+            CreateMatchWindow createPlayerWindow = new CreateMatchWindow(this);
+        });
 
         this.add(panel);
+        this.add(addBG);
         this.setSize(800, 700);
         this.setLayout(null);//using no layout managers
         this.setVisible(true);//making the frame visible
