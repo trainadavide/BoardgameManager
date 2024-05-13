@@ -29,7 +29,11 @@ public class MatchWindow extends JFrame {
         addBG.setText("+");
         addBG.setBounds(715,600,50,50);
         addBG.addActionListener(e -> {
-            CreateMatchWindow createPlayerWindow = new CreateMatchWindow(this);
+            try {
+                CreateMatchWindow createPlayerWindow = new CreateMatchWindow(this,0);
+            } catch (SQLException ex) {
+
+            }
         });
 
         this.add(panel);

@@ -83,7 +83,7 @@ public class CollectionWindow extends JFrame {
             public void actionPerformed(ActionEvent e) {
 
                 try {
-                    AddGameWindow addWindow = new AddGameWindow(true,window);
+                    AddGameWindow addWindow = new AddGameWindow(1,window);
                 } catch (Exception exception) {
                     exception.printStackTrace();
                 }

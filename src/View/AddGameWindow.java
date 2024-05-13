@@ -9,13 +9,15 @@ import java.net.URL;
 import java.sql.*;
 import Database.Database;
 import Control.AddCollectionControl;
+import View.CreateMatchWindow;
 
 public class AddGameWindow extends JFrame {
-    private final boolean collection;
+    private final int scope;
 
-    public AddGameWindow(boolean collection, JFrame window) throws SQLException {
+    public AddGameWindow(int scope, JFrame window) throws SQLException {
 
-        this.collection = collection;
+        this.scope = scope;
+        ResultSet resultSet;
 
         ImageIcon icon = new ImageIcon(".\\Assets\\Images\\BoardgameManagerIcon.png");
         this.setIconImage(icon.getImage());
@@ -26,7 +28,12 @@ public class AddGameWindow extends JFrame {
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setBounds(0, 0, 400, 600);
 
-        ResultSet resultSet = Database.result("SELECT * FROM boardgame");
+        if(scope==2){
+            resultSet = Database.result("SELECT * FROM boardgame RIGHT JOIN collection c ON boardgame.id = c.id");
+        }
+        else {
+            resultSet = Database.result("SELECT * FROM boardgame");
+        }
         int i = 1;
         JPanel game;
         while (resultSet.next()) {
@@ -58,7 +65,7 @@ public class AddGameWindow extends JFrame {
             add.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    if(AddCollectionControl.controlCollection(Integer.parseInt(add.getName()))&&collection){
+                    if(AddCollectionControl.controlCollection(Integer.parseInt(add.getName()))&& scope==1){
                         Database.result("INSERT INTO collection (id) VALUES ("+ add.getName() + ")");
                         try {
                             CollectionWindow collectionWindow = new CollectionWindow();
@@ -69,7 +76,7 @@ public class AddGameWindow extends JFrame {
                         window.dispose();
                         dispose();
                     }
-                    else if(AddCollectionControl.controlWishlist(Integer.parseInt(add.getName()))&&!collection){
+                    else if(AddCollectionControl.controlWishlist(Integer.parseInt(add.getName()))&& scope==0){
                         Database.result("INSERT INTO wishlist (id) VALUES ("+ add.getName() + ")");
                         try {
                             WishlistWindow wishlistWindow = new WishlistWindow();
@@ -80,13 +87,19 @@ public class AddGameWindow extends JFrame {
                         window.dispose();
                         dispose();
                     }
-                    else if(collection){
+                    else if(scope==1){
                         JOptionPane.showMessageDialog(null, "Gioco già presente nella collezione");
                     }
-                    else{
+                    else if(scope==0){
                         JOptionPane.showMessageDialog(null, "Gioco già presente nella wishlist");
                     }
-                }
+                    else if(scope==2){
+                        JOptionPane.showMessageDialog(null, "Selezionato");
+                        CreateMatchWindow w = (CreateMatchWindow) window;
+                        w.setGameID(Integer.parseInt(add.getName()));
+                        dispose();
+                    }
+                    }
             });
 
             game.add(title);

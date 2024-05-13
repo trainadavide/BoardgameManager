@@ -82,7 +82,7 @@ public class WishlistWindow extends JFrame {
             public void actionPerformed(ActionEvent e) {
 
                 try {
-                    AddGameWindow addWindow = new AddGameWindow(false,window);
+                    AddGameWindow addWindow = new AddGameWindow(0 ,window);
                 } catch (Exception exception) {
                     exception.printStackTrace();
                 }
