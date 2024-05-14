@@ -1,6 +1,7 @@
 package View;
 
 import Control.AddCollectionControl;
+import Control.LoadData;
 import Database.Database;
 
 import javax.swing.*;
@@ -11,6 +12,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import Main.Main;
+import Model.Boardgame;
 
 public class CollectionWindow extends JFrame {
     public CollectionWindow() throws SQLException {
@@ -26,23 +30,21 @@ public class CollectionWindow extends JFrame {
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setBounds(0, 0, 400, 600);
 
-        ResultSet resultSet = Database.result("SELECT c.id, b.* FROM collection c JOIN boardgame b ON c.id = b.id");
-        int i = 1;
         JPanel game;
 
-        while (resultSet.next()) {
+        for(Boardgame boardgame : Main.collection){
             game = new JPanel();
             game.setBounds(0, 0, 400, 200);
             game.setBorder(BorderFactory.createLineBorder(Color.black));
-            resultSet.absolute(i);
             JButton delete = new JButton("X");
-            delete.setName(resultSet.getString("id"));
+            delete.setName(""+boardgame.getId());
             delete.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     try {
                         String id = delete.getName();
                         Database.result("DELETE FROM collection WHERE id = '" +id+ "';");
+                        Main.collection= LoadData.loadCollection();
                         CollectionWindow collectionWindow = new CollectionWindow();
                         dispose();
                     } catch (SQLException throwables) {
@@ -50,16 +52,16 @@ public class CollectionWindow extends JFrame {
                     }
                 }
             });
-            JLabel name = new JLabel(resultSet.getString("name"));
+            JLabel name = new JLabel(boardgame.getName());
             name.setBounds(10, 0, 100, 100);
-            JLabel minP = new JLabel("Giocatori: " + resultSet.getString("minplayers") + " - " + resultSet.getString("maxplayers"));
+            JLabel minP = new JLabel("Giocatori: " +boardgame.getMinPlayers()+ " - " + boardgame.getMaxPlayers());
             minP.setBounds(10, 10, 100, 100);
-            JLabel avgTime = new JLabel("Durata: " + resultSet.getString("avgduration"));
+            JLabel avgTime = new JLabel("Durata: " + boardgame.getAvgGameDuration());
             avgTime.setBounds(100, 10, 100, 100);
 
             URL imageURL;
             try {
-                imageURL = new URL(resultSet.getString("image"));
+                imageURL = new URL(boardgame.getUrl());
             } catch (MalformedURLException e) {
                 throw new RuntimeException(e);
             }
@@ -72,7 +74,6 @@ public class CollectionWindow extends JFrame {
             game.add(avgTime);
             game.add(delete);
             panel.add(game);
-            i++;
         }
 
         JButton addBG = new JButton();

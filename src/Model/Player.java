@@ -2,9 +2,9 @@ package Model;
 
 public class Player {
     private int id;
-    private int nickname;
+    private String nickname;
 
-    public Player(int id, int nickname) {
+    public Player(int id, String nickname) {
         this.id = id;
         this.nickname = nickname;
     }

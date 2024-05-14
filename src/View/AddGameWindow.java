@@ -10,6 +10,8 @@ import java.sql.*;
 import Database.Database;
 import Control.AddCollectionControl;
 import View.CreateMatchWindow;
+import Main.Main;
+import Control.LoadData;
 
 public class AddGameWindow extends JFrame {
     private final int scope;
@@ -68,23 +70,25 @@ public class AddGameWindow extends JFrame {
                     if(AddCollectionControl.controlCollection(Integer.parseInt(add.getName()))&& scope==1){
                         Database.result("INSERT INTO collection (id) VALUES ("+ add.getName() + ")");
                         try {
+                            Main.collection= LoadData.loadCollection();
+                            JOptionPane.showMessageDialog(null, "Gioco aggiunto alla collezione");
+                            window.dispose();
                             CollectionWindow collectionWindow = new CollectionWindow();
                         } catch (SQLException ex) {
-                            throw new RuntimeException(ex);
+
                         }
-                        JOptionPane.showMessageDialog(null, "Gioco aggiunto alla collezione");
-                        window.dispose();
                         dispose();
                     }
                     else if(AddCollectionControl.controlWishlist(Integer.parseInt(add.getName()))&& scope==0){
                         Database.result("INSERT INTO wishlist (id) VALUES ("+ add.getName() + ")");
                         try {
+                            Main.wishlist= LoadData.loadWishlist();
+                            JOptionPane.showMessageDialog(null, "Gioco aggiunto alla wishlist");
+                            window.dispose();
                             WishlistWindow wishlistWindow = new WishlistWindow();
                         } catch (SQLException ex) {
                             throw new RuntimeException(ex);
                         }
-                        JOptionPane.showMessageDialog(null, "Gioco aggiunto alla wishlist");
-                        window.dispose();
                         dispose();
                     }
                     else if(scope==1){
