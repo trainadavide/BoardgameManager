@@ -19,10 +19,11 @@ import com.toedter.calendar.JDateChooser;
 
 
 public class CreateMatchWindow extends JFrame{
+    JFrame w = this;
     public int gameID=0;
     CreateMatchWindow createMatchWindow;
     MatchWindow mat;
-    public CreateMatchWindow(MatchWindow matchWindow, int gameID) throws SQLException {
+    public CreateMatchWindow(MatchWindow matchWindow, int gameID, int x, int y) throws SQLException {
         this.gameID = gameID;
         mat = matchWindow;
         createMatchWindow= this;
@@ -45,7 +46,7 @@ public class CreateMatchWindow extends JFrame{
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     try {
-                        AddGameWindow addGameWindow = new AddGameWindow(2, createMatchWindow );
+                        AddGameWindow addGameWindow = new AddGameWindow(2, createMatchWindow ,w.getLocation().x, w.getLocation().y);
                     } catch (SQLException ex) {
                         throw new RuntimeException(ex);
                     }
@@ -58,7 +59,7 @@ public class CreateMatchWindow extends JFrame{
             rs.absolute(1);
             System.out.println(rs.getString("name"));
 
-            gamePanel.setBounds(100, 30, 400, 200);
+            gamePanel.setBounds(100, 30, 500, 200);
             gamePanel.setBorder(BorderFactory.createLineBorder(Color.black));
 
             JLabel name = new JLabel(rs.getString("name"));
@@ -75,9 +76,28 @@ public class CreateMatchWindow extends JFrame{
             ImageIcon img = new ImageIcon(imageURL);
             JLabel label = new JLabel(img);
             label.setBounds(0, 0, 100, 100);
+
+            JButton delete = new JButton("X");
+            delete.setBounds(200, 0, 50, 50);
+            delete.addActionListener(
+                    new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            try {
+                                CreateMatchWindow newCreateMatch = new CreateMatchWindow(mat, 0,w.getLocation().x, w.getLocation().y);
+                                dispose();
+                            } catch (SQLException ex) {
+
+                            }
+                            dispose();
+                        }
+                    }
+            );
+
             gamePanel.add(label);
             gamePanel.add(name);
             gamePanel.add(minP);
+            gamePanel.add(delete);
             gamePanel.setVisible(true);
 
             this.add(gamePanel);
@@ -108,14 +128,14 @@ public class CreateMatchWindow extends JFrame{
         create.setBounds(50,700,100,50);
         this.add(create);
 
-        this.setSize(750,800);
+        this.setBounds(x,y,800,700);
         this.setLayout(null);//using no layout managers
         this.setVisible(true);//making the frame visible
         this.setResizable(false);
     }
 
     public void setGameID(int gameID) throws SQLException {
-        CreateMatchWindow newCreateMatch = new CreateMatchWindow(mat, gameID);
+        CreateMatchWindow newCreateMatch = new CreateMatchWindow(mat, gameID,w.getLocation().x, w.getLocation().y);
         dispose();
     }
 }

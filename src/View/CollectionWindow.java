@@ -17,7 +17,8 @@ import Main.Main;
 import Model.Boardgame;
 
 public class CollectionWindow extends JFrame {
-    public CollectionWindow() throws SQLException {
+    public CollectionWindow(int x, int y) throws SQLException {
+        JFrame w = this;
         JLabel title = new JLabel("Collection");
         ImageIcon icon = new ImageIcon(".\\Assets\\Images\\BoardgameManagerIcon.png");
         this.setIconImage(icon.getImage());
@@ -45,7 +46,7 @@ public class CollectionWindow extends JFrame {
                         String id = delete.getName();
                         Database.result("DELETE FROM collection WHERE id = '" +id+ "';");
                         Main.collection= LoadData.loadCollection();
-                        CollectionWindow collectionWindow = new CollectionWindow();
+                        CollectionWindow collectionWindow = new CollectionWindow(w.getLocation().x, w.getLocation().y);
                         dispose();
                     } catch (SQLException throwables) {
                         throwables.printStackTrace();
@@ -84,7 +85,7 @@ public class CollectionWindow extends JFrame {
             public void actionPerformed(ActionEvent e) {
 
                 try {
-                    AddGameWindow addWindow = new AddGameWindow(1,window);
+                    AddGameWindow addWindow = new AddGameWindow(1,window,w.getLocation().x, w.getLocation().y);
                 } catch (Exception exception) {
                     exception.printStackTrace();
                 }
@@ -102,7 +103,7 @@ public class CollectionWindow extends JFrame {
         addBG.setBounds(715,600,50,50);
         this.add(addBG);
 
-        this.setSize(800, 700);
+        this.setBounds(x,y,800,700);
         this.setLayout(null);//using no layout managers
         this.setVisible(true);//making the frame visible
         this.setResizable(false);

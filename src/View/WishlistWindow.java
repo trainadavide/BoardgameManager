@@ -15,7 +15,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class WishlistWindow extends JFrame {
-    public WishlistWindow() throws SQLException {
+    public WishlistWindow(int x, int y) throws SQLException {
+        JFrame w = this;
         JLabel title = new JLabel("WishList");
         ImageIcon icon = new ImageIcon(".\\Assets\\Images\\BoardgameManagerIcon.png");
         this.setIconImage(icon.getImage());
@@ -43,7 +44,7 @@ public class WishlistWindow extends JFrame {
                         String id = delete.getName();
                         Database.result("DELETE FROM wishlist WHERE id = '" +id+ "';");
                         Main.wishlist = LoadData.loadWishlist();
-                        WishlistWindow wishlistWindow = new WishlistWindow();
+                        WishlistWindow wishlistWindow = new WishlistWindow(w.getLocation().x, w.getLocation().y);
                         dispose();
                     } catch (SQLException throwables) {
                         throwables.printStackTrace();
@@ -83,7 +84,7 @@ public class WishlistWindow extends JFrame {
             public void actionPerformed(ActionEvent e) {
 
                 try {
-                    AddGameWindow addWindow = new AddGameWindow(0 ,window);
+                    AddGameWindow addWindow = new AddGameWindow(0 ,window,w.getLocation().x, w.getLocation().y);
                 } catch (Exception exception) {
                     exception.printStackTrace();
                 }
@@ -101,7 +102,7 @@ public class WishlistWindow extends JFrame {
         addBG.setBounds(715,600,50,50);
         this.add(addBG);
 
-        this.setSize(800, 700);
+        this.setBounds(x,y,800,700);
         this.setLayout(null);//using no layout managers
         this.setVisible(true);//making the frame visible
         this.setResizable(false);

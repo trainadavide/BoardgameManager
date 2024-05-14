@@ -10,7 +10,8 @@ import Main.Main;
 import Control.LoadData;
 
 public class CreatePlayerWindow extends JFrame{
-    public CreatePlayerWindow(PlayersWindow playersWindow){
+    public CreatePlayerWindow(PlayersWindow playersWindow, int x, int y){
+        JFrame w = this;
         JLabel title = new JLabel("Create Player");
         ImageIcon icon = new ImageIcon(".\\Assets\\Images\\BoardgameManagerIcon.png");
         this.setIconImage(icon.getImage());
@@ -37,7 +38,7 @@ public class CreatePlayerWindow extends JFrame{
                     JOptionPane.showMessageDialog(null, "Player created successfully");
                     try {
                         Main.players = LoadData.loadPlayers();
-                        PlayersWindow playersWindow1 = new PlayersWindow();
+                        PlayersWindow playersWindow1 = new PlayersWindow(w.getLocation().x, w.getLocation().y);
                         playersWindow.dispose();
                     } catch (SQLException ex) {
 
@@ -49,7 +50,7 @@ public class CreatePlayerWindow extends JFrame{
 
         this.add(create);
 
-        this.setSize(400,200);
+        this.setBounds(x,y,400,200);
         this.setLayout(null);//using no layout managers
         this.setVisible(true);//making the frame visible
         this.setResizable(false);

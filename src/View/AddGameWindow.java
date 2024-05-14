@@ -16,10 +16,11 @@ import Control.LoadData;
 public class AddGameWindow extends JFrame {
     private final int scope;
 
-    public AddGameWindow(int scope, JFrame window) throws SQLException {
+    public AddGameWindow(int scope, JFrame window, int x, int y) throws SQLException {
 
         this.scope = scope;
         ResultSet resultSet;
+        JFrame w = this;
 
         ImageIcon icon = new ImageIcon(".\\Assets\\Images\\BoardgameManagerIcon.png");
         this.setIconImage(icon.getImage());
@@ -73,7 +74,7 @@ public class AddGameWindow extends JFrame {
                             Main.collection= LoadData.loadCollection();
                             JOptionPane.showMessageDialog(null, "Gioco aggiunto alla collezione");
                             window.dispose();
-                            CollectionWindow collectionWindow = new CollectionWindow();
+                            CollectionWindow collectionWindow = new CollectionWindow(w.getLocation().x, w.getLocation().y);
                         } catch (SQLException ex) {
 
                         }
@@ -85,7 +86,7 @@ public class AddGameWindow extends JFrame {
                             Main.wishlist= LoadData.loadWishlist();
                             JOptionPane.showMessageDialog(null, "Gioco aggiunto alla wishlist");
                             window.dispose();
-                            WishlistWindow wishlistWindow = new WishlistWindow();
+                            WishlistWindow wishlistWindow = new WishlistWindow(w.getLocation().x, w.getLocation().y);
                         } catch (SQLException ex) {
                             throw new RuntimeException(ex);
                         }
@@ -121,7 +122,7 @@ public class AddGameWindow extends JFrame {
         scrollPane.setViewportView(panel);
         scrollPane.setBounds(0, 0, 780, 680);
         this.add(scrollPane, BorderLayout.CENTER);
-        this.setSize(800, 700);
+        this.setBounds(x,y,800,700);
         this.setLayout(null);//using no layout managers
         this.setVisible(true);//making the frame visible
         this.setResizable(false);

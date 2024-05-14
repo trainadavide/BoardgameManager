@@ -6,7 +6,8 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
 public class MainWindow extends JFrame{
-    public MainWindow() {
+    public MainWindow(int x, int y) {
+        JFrame w = this;
         JLabel title = new JLabel("Boardgame Manager");
         ImageIcon icon = new ImageIcon(".\\Assets\\Images\\BoardgameManagerIcon.png");
         this.setIconImage(icon.getImage());
@@ -38,7 +39,7 @@ public class MainWindow extends JFrame{
             public void actionPerformed(ActionEvent e) {
 
                 try {
-                    CollectionWindow collectionWindow = new CollectionWindow();
+                    CollectionWindow collectionWindow = new CollectionWindow(w.getLocation().x, w.getLocation().y);
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -50,7 +51,7 @@ public class MainWindow extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    PlayersWindow playersWindow = new PlayersWindow();
+                    PlayersWindow playersWindow = new PlayersWindow(w.getLocation().x, w.getLocation().y);
                 } catch (Exception exception) {
                 }
             }
@@ -61,7 +62,7 @@ public class MainWindow extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    MatchWindow matchWindow = new MatchWindow();
+                    MatchWindow matchWindow = new MatchWindow(w.getLocation().x, w.getLocation().y);
                 } catch (Exception exception) {
                 }
             }
@@ -73,7 +74,7 @@ public class MainWindow extends JFrame{
             public void actionPerformed(ActionEvent e) {
 
                 try {
-                    WishlistWindow WishlistWindow = new WishlistWindow();
+                    WishlistWindow WishlistWindow = new WishlistWindow(w.getLocation().x, w.getLocation().y);
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -82,7 +83,7 @@ public class MainWindow extends JFrame{
 
         });
 
-        this.setSize(500,250);
+        this.setBounds(x,y,500,250);
         this.setLayout(null);//using no layout managers
         this.setVisible(true);//making the frame visible
         this.setResizable(false);

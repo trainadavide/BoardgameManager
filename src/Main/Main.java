@@ -16,6 +16,6 @@ public class Main {
         wishlist = Control.LoadData.loadWishlist();
         players = Control.LoadData.loadPlayers();
 
-        MainWindow mainWindow = new MainWindow();
+        MainWindow mainWindow = new MainWindow(0,0);
     }
 }

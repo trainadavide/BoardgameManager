@@ -13,7 +13,8 @@ import Control.LoadData;
 import Model.Player;
 
 public class PlayersWindow extends JFrame {
-    public PlayersWindow() throws SQLException {
+    public PlayersWindow(int x, int y) throws SQLException {
+        JFrame w = this;
         JLabel title = new JLabel("Players");
         ImageIcon icon = new ImageIcon(".\\Assets\\Images\\BoardgameManagerIcon.png");
         this.setIconImage(icon.getImage());
@@ -39,7 +40,7 @@ public class PlayersWindow extends JFrame {
                         String id = delete.getName();
                         Database.result("DELETE FROM players WHERE id = '" +id+ "';");
                         Main.players = LoadData.loadPlayers();
-                        PlayersWindow playersWindow = new PlayersWindow();
+                        PlayersWindow playersWindow = new PlayersWindow(w.getLocation().x, w.getLocation().y);
                         dispose();
                     } catch (SQLException throwables) {
                         throwables.printStackTrace();
@@ -60,12 +61,12 @@ public class PlayersWindow extends JFrame {
         addBG.setText("+");
         addBG.setBounds(715,600,50,50);
         addBG.addActionListener(e -> {
-            CreatePlayerWindow createPlayerWindow = new CreatePlayerWindow(this);
+            CreatePlayerWindow createPlayerWindow = new CreatePlayerWindow(this,w.getLocation().x, w.getLocation().y);
         });
 
         this.add(panel);
         this.add(addBG);
-        this.setSize(800, 700);
+        this.setBounds(x,y,800,700);
         this.setLayout(null);//using no layout managers
         this.setVisible(true);//making the frame visible
         this.setResizable(false);

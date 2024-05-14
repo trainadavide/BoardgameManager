@@ -10,7 +10,8 @@ import java.sql.SQLException;
 import Database.Database;
 
 public class MatchWindow extends JFrame {
-    public MatchWindow() throws SQLException {
+    public MatchWindow(int x, int y) throws SQLException {
+        JFrame w = this;
         JLabel title = new JLabel("Match");
         ImageIcon icon = new ImageIcon(".\\Assets\\Images\\BoardgameManagerIcon.png");
         this.setIconImage(icon.getImage());
@@ -30,7 +31,7 @@ public class MatchWindow extends JFrame {
         addBG.setBounds(715,600,50,50);
         addBG.addActionListener(e -> {
             try {
-                CreateMatchWindow createPlayerWindow = new CreateMatchWindow(this,0);
+                CreateMatchWindow createPlayerWindow = new CreateMatchWindow(this,0,w.getLocation().x, w.getLocation().y);
             } catch (SQLException ex) {
 
             }
@@ -38,7 +39,7 @@ public class MatchWindow extends JFrame {
 
         this.add(panel);
         this.add(addBG);
-        this.setSize(800, 700);
+        this.setBounds(x,y,800,700);
         this.setLayout(null);//using no layout managers
         this.setVisible(true);//making the frame visible
         this.setResizable(false);
