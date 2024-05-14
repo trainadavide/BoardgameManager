@@ -47,7 +47,7 @@ public class LoadData {
 
     public static ArrayList<Player> loadPlayers() {
         ArrayList<Player> players = new ArrayList<>();
-        ResultSet rs = Database.result("SELECT * FROM player");
+        ResultSet rs = Database.result("SELECT * FROM players");
         int i = 0;
         try {
             rs.absolute(i);

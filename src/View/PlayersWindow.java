@@ -8,6 +8,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import Database.Database;
+import Main.Main;
+import Control.LoadData;
+import Model.Player;
 
 public class PlayersWindow extends JFrame {
     public PlayersWindow() throws SQLException {
@@ -21,22 +24,21 @@ public class PlayersWindow extends JFrame {
         panel.setBounds(0, 50, 400, 600);
         panel.setLayout(new GridLayout(10,20));
 
-        ResultSet resultSet = Database.result("SELECT * FROM Players");
-        int i=1;
         JPanel player;
-        while (resultSet.next()) {
+
+        for(Player p : Main.players){
             player = new JPanel();
             player.setBounds(0, 0, 20, 20);
             player.setBorder(BorderFactory.createLineBorder(Color.black));
-            resultSet.absolute(i);
             JButton delete = new JButton("X");
-            delete.setName(resultSet.getString("nickname"));
+            delete.setName(""+p.getId());
             delete.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     try {
-                        String nickname = delete.getName();
-                        Database.result("DELETE FROM players WHERE nickname = '" +nickname+ "';");
+                        String id = delete.getName();
+                        Database.result("DELETE FROM players WHERE id = '" +id+ "';");
+                        Main.players = LoadData.loadPlayers();
                         PlayersWindow playersWindow = new PlayersWindow();
                         dispose();
                     } catch (SQLException throwables) {
@@ -44,12 +46,13 @@ public class PlayersWindow extends JFrame {
                     }
                 }
             });
-            JLabel nickname = new JLabel(resultSet.getString("nickname"));
+
+            JLabel nickname = new JLabel(p.getNickname());
             nickname.setBounds(10, 0, 20, 20);
             player.add(nickname);
             player.add(delete);
             panel.add(player);
-            i++;
+            System.out.println(p.getNickname());
         }
 
 

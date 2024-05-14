@@ -6,6 +6,8 @@ import java.sql.SQLException;
 
 import Control.AddPlayerControl;
 import Database.Database;
+import Main.Main;
+import Control.LoadData;
 
 public class CreatePlayerWindow extends JFrame{
     public CreatePlayerWindow(PlayersWindow playersWindow){
@@ -34,6 +36,7 @@ public class CreatePlayerWindow extends JFrame{
                     Database.result("INSERT INTO players (nickname) VALUES ('" + nicknameField.getText() + "')");//Inserting the player into the
                     JOptionPane.showMessageDialog(null, "Player created successfully");
                     try {
+                        Main.players = LoadData.loadPlayers();
                         PlayersWindow playersWindow1 = new PlayersWindow();
                         playersWindow.dispose();
                     } catch (SQLException ex) {
