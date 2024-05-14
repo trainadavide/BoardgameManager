@@ -102,6 +102,15 @@ public class CreateMatchWindow extends JFrame{
             gamePanel.setVisible(true);
 
             this.add(gamePanel);
+
+
+        }
+        try {
+            ResultSet rs = Database.result("SELECT * FROM boardgame WHERE id = "+gameID);
+            int[] playerID = new int[rs.getInt("maxPlayers")];
+            Arrays.fill(playerID, 0);
+        }
+        catch (SQLException ex){
         }
 
         JLabel players = new JLabel("Players: ");
