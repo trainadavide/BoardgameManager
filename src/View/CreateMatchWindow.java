@@ -21,6 +21,7 @@ import com.toedter.calendar.JDateChooser;
 public class CreateMatchWindow extends JFrame{
     JFrame w = this;
     public int gameID=0;
+
     CreateMatchWindow createMatchWindow;
     MatchWindow mat;
     public CreateMatchWindow(MatchWindow matchWindow, int gameID, int x, int y) throws SQLException {
@@ -59,7 +60,7 @@ public class CreateMatchWindow extends JFrame{
             rs.absolute(1);
             System.out.println(rs.getString("name"));
 
-            gamePanel.setBounds(100, 30, 500, 200);
+            gamePanel.setBounds(100, 30, 500, 280);
             gamePanel.setBorder(BorderFactory.createLineBorder(Color.black));
 
             JLabel name = new JLabel(rs.getString("name"));
@@ -77,9 +78,9 @@ public class CreateMatchWindow extends JFrame{
             JLabel label = new JLabel(img);
             label.setBounds(0, 0, 100, 100);
 
-            JButton delete = new JButton("X");
-            delete.setBounds(200, 0, 50, 50);
-            delete.addActionListener(
+            JButton delete_game = new JButton("X");
+            delete_game.setBounds(200, 0, 50, 50);
+            delete_game.addActionListener(
                     new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
@@ -97,38 +98,38 @@ public class CreateMatchWindow extends JFrame{
             gamePanel.add(label);
             gamePanel.add(name);
             gamePanel.add(minP);
-            gamePanel.add(delete);
+            gamePanel.add(delete_game);
             gamePanel.setVisible(true);
 
             this.add(gamePanel);
         }
 
         JLabel players = new JLabel("Players: ");
-        players.setBounds(50,250,100,20);
+        players.setBounds(50,325,100,20);
         this.add(players);
 
         JLabel date = new JLabel("Date:");
-        date.setBounds(50,280,100,20);
+        date.setBounds(50,425,100,20);
         this.add(date);
 
         JDateChooser dateChooser = new JDateChooser();
-        dateChooser.setBounds(150,280,200,20);
+        dateChooser.setBounds(150,425,200,20);
         this.add(dateChooser);
 
         JLabel duration = new JLabel("Duration:");
-        duration.setBounds(50,350,100,20);
+        duration.setBounds(50,475,100,20);
         this.add(duration);
 
         JTextField durationField = new JTextField();
-        durationField.setBounds(150,350,200,20);
+        durationField.setBounds(150,475,200,20);
         this.add(durationField);
 
         JButton create = new JButton();
         create.setText("Create");
-        create.setBounds(50,700,100,50);
+        create.setBounds(50,675,100,50);
         this.add(create);
 
-        this.setBounds(x,y,800,700);
+        this.setBounds(x,y,800,800);
         this.setLayout(null);//using no layout managers
         this.setVisible(true);//making the frame visible
         this.setResizable(false);
