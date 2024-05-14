@@ -1,14 +1,20 @@
 package View;
 
 import Control.AddPlayerControl;
+import Control.LoadData;
 import Database.Database;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
+
+import Main.Main;
 import com.toedter.calendar.JDateChooser;
 
 
@@ -17,6 +23,7 @@ public class CreateMatchWindow extends JFrame{
     CreateMatchWindow createMatchWindow;
     MatchWindow mat;
     public CreateMatchWindow(MatchWindow matchWindow, int gameID) throws SQLException {
+        this.gameID = gameID;
         mat = matchWindow;
         createMatchWindow= this;
         System.out.println(gameID);
@@ -46,25 +53,46 @@ public class CreateMatchWindow extends JFrame{
             });
         }
         else{
-            ResultSet name = Database.result("SELECT name FROM boardgame WHERE id = "+gameID);
-            name.absolute(1);
+            JPanel gamePanel = new JPanel();
+            ResultSet rs = Database.result("SELECT * FROM boardgame WHERE id = "+gameID);
+            rs.absolute(1);
+            System.out.println(rs.getString("name"));
 
-            JLabel gameName = new JLabel(name.getString("name"));
-            gameName.setBounds(150,50,100,20);
-            this.add(gameName);
+            gamePanel.setBounds(100, 30, 400, 200);
+            gamePanel.setBorder(BorderFactory.createLineBorder(Color.black));
 
+            JLabel name = new JLabel(rs.getString("name"));
+            name.setBounds(10, 0, 100, 100);
+            JLabel minP = new JLabel("Giocatori: " +rs.getInt("minPlayers")+ " - " + rs.getInt("maxPlayers"));
+            minP.setBounds(10, 10, 100, 100);
+
+            URL imageURL;
+            try {
+                imageURL = new URL(rs.getString("image"));
+            } catch (MalformedURLException e) {
+                throw new RuntimeException(e);
+            }
+            ImageIcon img = new ImageIcon(imageURL);
+            JLabel label = new JLabel(img);
+            label.setBounds(0, 0, 100, 100);
+            gamePanel.add(label);
+            gamePanel.add(name);
+            gamePanel.add(minP);
+            gamePanel.setVisible(true);
+
+            this.add(gamePanel);
         }
 
         JLabel players = new JLabel("Players: ");
-        players.setBounds(50,150,100,20);
+        players.setBounds(50,250,100,20);
         this.add(players);
 
         JLabel date = new JLabel("Date:");
-        date.setBounds(50,250,100,20);
+        date.setBounds(50,280,100,20);
         this.add(date);
 
         JDateChooser dateChooser = new JDateChooser();
-        dateChooser.setBounds(150,250,200,20);
+        dateChooser.setBounds(150,280,200,20);
         this.add(dateChooser);
 
         JLabel duration = new JLabel("Duration:");
@@ -78,9 +106,6 @@ public class CreateMatchWindow extends JFrame{
         JButton create = new JButton();
         create.setText("Create");
         create.setBounds(50,700,100,50);
-
-
-
         this.add(create);
 
         this.setSize(750,800);
@@ -89,13 +114,8 @@ public class CreateMatchWindow extends JFrame{
         this.setResizable(false);
     }
 
-    public void setGameID(int gameID){
-        this.gameID = gameID;
-        try {
-            CreateMatchWindow createMatchWindow = new CreateMatchWindow(mat, gameID);
-        } catch (SQLException e) {
-
-        }
-        this.dispose();
+    public void setGameID(int gameID) throws SQLException {
+        CreateMatchWindow newCreateMatch = new CreateMatchWindow(mat, gameID);
+        dispose();
     }
 }

@@ -99,8 +99,11 @@ public class AddGameWindow extends JFrame {
                     }
                     else if(scope==2){
                         JOptionPane.showMessageDialog(null, "Selezionato");
-                        CreateMatchWindow w = (CreateMatchWindow) window;
-                        w.setGameID(Integer.parseInt(add.getName()));
+                        try {
+                            ((CreateMatchWindow) window).setGameID(Integer.parseInt(add.getName()));
+                        } catch (SQLException ex) {
+                            throw new RuntimeException(ex);
+                        }
                         dispose();
                     }
                     }
