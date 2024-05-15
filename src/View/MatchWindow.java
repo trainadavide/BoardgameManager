@@ -31,7 +31,7 @@ public class MatchWindow extends JFrame {
         addBG.setBounds(715,600,50,50);
         addBG.addActionListener(e -> {
             try {
-                CreateMatchWindow createPlayerWindow = new CreateMatchWindow(this,0,w.getLocation().x, w.getLocation().y);
+                CreateMatchWindow createMatchWindow = new CreateMatchWindow(this,0,w.getLocation().x, w.getLocation().y,null);
             } catch (SQLException ex) {
 
             }
