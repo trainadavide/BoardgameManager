@@ -123,20 +123,19 @@ public class CreateMatchWindow extends JFrame{
                     if(players[i]!=null){
                         System.out.println(players.length);
                         JLabel nomeGiocatore = new JLabel(players[i].getNickname());
-                        nomeGiocatore.setBounds(150+(30*i),250,100,20);
+                        nomeGiocatore.setBounds(150+(70*i),250,100,20);
                         this.add(nomeGiocatore);
                     }
                     else{
                         JButton addPlayer = new JButton("+");
                         addPlayer.setFont(new Font("Arial", Font.PLAIN, 1));
-                        addPlayer.setBounds(150+(30*i),250,20,20);
+                        addPlayer.setBounds(150+(70*i),250,20,20);
                         addPlayer.setName(""+i);
                         addPlayer.addActionListener(new ActionListener() {
                             @Override
                             public void actionPerformed(ActionEvent e) {
-                                ((CreateMatchWindow)w).players[Integer.parseInt(addPlayer.getName())]=new Player(1,"test");
                                 try {
-                                    CreateMatchWindow newCreateMatch = new CreateMatchWindow(mat, gameID,w.getLocation().x, w.getLocation().y,((CreateMatchWindow)w).players);
+                                    PlayersWindow pw = new PlayersWindow(w.getLocation().x, w.getLocation().y, true, w,Integer.parseInt(addPlayer.getName()));
                                     w.dispose();
                                 } catch (SQLException ex) {
 

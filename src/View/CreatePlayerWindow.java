@@ -38,7 +38,7 @@ public class CreatePlayerWindow extends JFrame{
                     JOptionPane.showMessageDialog(null, "Player created successfully");
                     try {
                         Main.players = LoadData.loadPlayers();
-                        PlayersWindow playersWindow1 = new PlayersWindow(w.getLocation().x, w.getLocation().y);
+                        PlayersWindow playersWindow1 = new PlayersWindow(w.getLocation().x, w.getLocation().y,false,null,0);
                         playersWindow.dispose();
                     } catch (SQLException ex) {
 

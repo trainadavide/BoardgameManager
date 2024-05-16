@@ -68,7 +68,7 @@ public class MainWindow extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    PlayersWindow playersWindow = new PlayersWindow(w.getLocation().x, w.getLocation().y);
+                    PlayersWindow playersWindow = new PlayersWindow(w.getLocation().x, w.getLocation().y, false,null,0);
                 } catch (Exception exception) {
                 }
             }
