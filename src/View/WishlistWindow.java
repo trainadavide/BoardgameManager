@@ -25,14 +25,14 @@ public class WishlistWindow extends JFrame {
 
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        JPanel panel = new JPanel();
+        JPanel panel = new JPanel(new GridLayout());
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setBounds(0, 0, 400, 600);
 
         JPanel game;
 
         for(Boardgame boardgame : Main.wishlist){
-            game = new JPanel();
+            game = new JPanel(new FlowLayout(FlowLayout.LEFT));
             game.setBounds(0, 0, 400, 200);
             game.setBorder(BorderFactory.createLineBorder(Color.black));
             JButton delete = new JButton("X");

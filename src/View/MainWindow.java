@@ -1,6 +1,7 @@
 package View;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
@@ -8,31 +9,47 @@ import java.sql.SQLException;
 public class MainWindow extends JFrame{
     public MainWindow(int x, int y) {
         JFrame w = this;
+        this.setLayout(new BorderLayout());
         JLabel title = new JLabel("Boardgame Manager");
         ImageIcon icon = new ImageIcon(".\\Assets\\Images\\BoardgameManagerIcon.png");
         this.setIconImage(icon.getImage());
-        title.setBounds(180,10,200,20);
-        this.add(title);
+        title.setBounds(190,10,200,20);
+        this.add(title, BorderLayout.NORTH);
+
+        JPanel buttons = new JPanel(new GridLayout(7,1));
+        buttons.setBounds(150, 50, 200, 200);
 
         JButton collection = new JButton();
         collection.setText("Collection");
-        collection.setBounds(50,50,100,50);
-        this.add(collection);
+        collection.setBounds(50,50,150,90);
+        buttons.add(collection);
 
-        JButton players = new JButton();
-        players.setText("Players");
-        players.setBounds(200,50,100,50);
-        this.add(players);
-
-        JButton match = new JButton();
-        match.setText("Match");
-        match.setBounds(200,125,100,50);
-        this.add(match);
+        JPanel empty1 = new JPanel();
+        buttons.add(empty1);
 
         JButton wishlist = new JButton();
         wishlist.setText("Wishlist");
-        wishlist.setBounds(350,50,100,50);
-        this.add(wishlist);
+        wishlist.setBounds(350,50,150,90);
+        buttons.add(wishlist);
+
+        JPanel empty2 = new JPanel();
+        buttons.add(empty2);
+
+        JButton players = new JButton();
+        players.setText("Players");
+        players.setBounds(200,50,150,90);
+        buttons.add(players);
+
+        JPanel empty3 = new JPanel();
+        buttons.add(empty3);
+
+        JButton match = new JButton();
+        match.setText("Match");
+        match.setBounds(200,125,150,90);
+        buttons.add(match);
+
+        this.add(buttons, BorderLayout.CENTER);
+
 
         collection.addActionListener(new ActionListener() {
             @Override
@@ -83,7 +100,7 @@ public class MainWindow extends JFrame{
 
         });
 
-        this.setBounds(x,y,500,250);
+        this.setBounds(x,y,500,320);
         this.setLayout(null);//using no layout managers
         this.setVisible(true);//making the frame visible
         this.setResizable(false);
