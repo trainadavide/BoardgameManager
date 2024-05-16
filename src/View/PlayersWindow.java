@@ -26,11 +26,14 @@ public class PlayersWindow extends JFrame {
         panel.setLayout(new GridLayout(10,20));
 
         JPanel player;
+        JPanel internalPanel;
 
         for(Player p : Main.players){
             player = new JPanel();
             player.setBounds(0, 0, 20, 20);
-            player.setBorder(BorderFactory.createLineBorder(Color.black));
+            player.setBorder(BorderFactory.createEmptyBorder(0,-30,-15,-30));
+            internalPanel = new JPanel();
+            internalPanel.setBorder(BorderFactory.createLineBorder(Color.black));
             JButton delete = new JButton("X");
             delete.setName(""+p.getId());
             delete.addActionListener(new ActionListener() {
@@ -50,8 +53,11 @@ public class PlayersWindow extends JFrame {
 
             JLabel nickname = new JLabel(p.getNickname());
             nickname.setBounds(10, 0, 20, 20);
-            player.add(nickname);
-            player.add(delete);
+            internalPanel.add(nickname);
+            internalPanel.add(delete);
+            internalPanel.setBounds(0,0,100,50);
+            player.add(internalPanel);
+            player.setBounds(0, 0, 160, 65);
             panel.add(player);
             System.out.println(p.getNickname());
         }
