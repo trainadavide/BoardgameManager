@@ -44,9 +44,4 @@ public class MatchDAO {
         String query = "SELECT * FROM match";
         return ManagerDAO.result(query);
     }
-
-    public ResultSet getMatchDetailsById(int id)throws SQLException{
-        String query = "SELECT id_player, points FROM match_players WHERE id_match = "+id;
-        return ManagerDAO.result(query);
-    }
 }

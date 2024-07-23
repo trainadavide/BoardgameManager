@@ -37,6 +37,26 @@ public class CollectionDAO {
         return ManagerDAO.result(query);
     }
 
+    public ResultSet getBoardGameByMaxDuration(int maxDuration)throws SQLException{
+        String query = "SELECT * FROM collection c JOIN boardgame b ON c.id = b.id WHERE b.avgDuration <="+maxDuration;
+        return ManagerDAO.result(query);
+    }
+
+    public ResultSet getBoardGameByMinDuration(int minDuration)throws SQLException{
+        String query = "SELECT * FROM collection c JOIN boardgame b ON c.id = b.id WHERE b.avgDuration >="+minDuration;
+        return ManagerDAO.result(query);
+    }
+
+    public ResultSet getBoardGameByPlayers(int players)throws SQLException{
+        String query = "SELECT * collection c JOIN boardgame b ON c.id = b.id WHERE b.minPlayers <="+players+" AND b.maxPlayers >="+players;
+        return ManagerDAO.result(query);
+    }
+
+    public ResultSet getCompetitiveBoardGame(boolean competitive)throws SQLException{
+        String query = "SELECT * FROM collection c JOIN boardgame b ON c.id = b.id WHERE b.competitive ="+competitive;
+        return ManagerDAO.result(query);
+    }
+
     private boolean alreadyInCollection(int id) throws SQLException {
         boolean inCollection = false;
         String query = "SELECT * FROM Collection WHERE id ="+id;
