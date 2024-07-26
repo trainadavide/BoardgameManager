@@ -44,4 +44,9 @@ public class MatchDAO {
         String query = "SELECT * FROM match";
         return ManagerDAO.result(query);
     }
+
+    public ResultSet getMatchesByGame(int gameId)throws SQLException{
+        String query = "SELECT * FROM match WHERE game ="+gameId;
+        return ManagerDAO.result(query);
+    }
 }
