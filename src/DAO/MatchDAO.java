@@ -7,6 +7,8 @@ import java.util.Date;
 
 public class MatchDAO {
 
+    //TODO Check query post aggiunta user
+
     public void addMatch(int gameId, int[] playersId, int[] points, Date date, int duration) throws SQLException {
         String query = "INSERT INTO match (game, date, duration) VALUES (? ,? ,?)";
         PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);

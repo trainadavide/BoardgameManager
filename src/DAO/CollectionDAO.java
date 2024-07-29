@@ -6,6 +6,8 @@ import java.sql.SQLException;
 
 public class CollectionDAO {
 
+    //TODO Check query post aggiunta user
+
     public void addBoardGame(int id) throws SQLException {
         if (!alreadyInCollection(id)){
             String query = "INSERT INTO collection (id) VALUES (?)";

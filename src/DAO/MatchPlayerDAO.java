@@ -4,6 +4,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+//TODO Check query post aggiunta user
+
 public class MatchPlayerDAO {
     public ResultSet getMatchDetailsById(int id)throws SQLException {
         String query = "SELECT id_player, points FROM match_players WHERE id_match = "+id;

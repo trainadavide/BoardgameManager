@@ -4,6 +4,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+//TODO Check query post aggiunta user
+
 public class WishlistDAO {
 
     public void addBoardGame(int id) throws SQLException {
