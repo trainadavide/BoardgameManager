@@ -7,14 +7,13 @@ import java.util.Date;
 
 public class MatchDAO {
 
-    //TODO Check query post aggiunta user
-
-    public void addMatch(int gameId, int[] playersId, int[] points, Date date, int duration) throws SQLException {
-        String query = "INSERT INTO match (game, date, duration) VALUES (? ,? ,?)";
+    public void addMatch(int gameId, int[] playersId, int[] points, Date date, int duration, int userId) throws SQLException {
+        String query = "INSERT INTO match (gameid, date, duration, userid) VALUES (? ,? ,?, ?)";
         PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
         ps.setInt(1,gameId);
         ps.setDate(2, (java.sql.Date) date);
         ps.setInt(3, duration);
+        ps.setInt(4,userId);
         ps.executeUpdate();
 
         int matchId;
@@ -42,13 +41,13 @@ public class MatchDAO {
         //match_players rows will be deleted on cascade
     }
 
-    public ResultSet getMatches()throws SQLException{
-        String query = "SELECT * FROM match";
+    public ResultSet getMatches(int userId)throws SQLException{
+        String query = "SELECT * FROM match WHERE userid="+userId;
         return ManagerDAO.result(query);
     }
 
-    public ResultSet getMatchesByGame(int gameId)throws SQLException{
-        String query = "SELECT * FROM match WHERE game ="+gameId;
+    public ResultSet getMatchesByGame(int gameId,int userId)throws SQLException{
+        String query = "SELECT * FROM match WHERE game ="+gameId+" AND userid="+userId;
         return ManagerDAO.result(query);
     }
 }

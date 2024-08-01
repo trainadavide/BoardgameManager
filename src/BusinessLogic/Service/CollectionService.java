@@ -1,20 +1,28 @@
 package BusinessLogic.Service;
 
 import DAO.CollectionDAO;
+import Model.User;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+//TODO implement entity modification in service
+
 public class CollectionService {
     private CollectionDAO collectionDAO;
+
+    private User user;
 
     public CollectionService(CollectionDAO collectionDAO){
         this.collectionDAO = collectionDAO;
     }
 
+    public void setUser(User user){
+        this.user = user;
+    }
     public void addGameToCollection(int gameId){
         try {
-            collectionDAO.addBoardGame(gameId);
+            collectionDAO.addBoardGame(gameId, user.getId());
         } catch (SQLException e) {
             System.err.println("Errore durante l'aggiunta alla collezione: "+e.getMessage());
         }
@@ -22,7 +30,7 @@ public class CollectionService {
 
     public void removeGameFromCollection(int gameId){
         try {
-            collectionDAO.deleteBoardGame(gameId);
+            collectionDAO.deleteBoardGame(gameId,user.getId());
         } catch (SQLException e) {
             System.err.println("Errore durante la rimozione dalla collezione: "+e.getMessage());
         }
@@ -30,7 +38,7 @@ public class CollectionService {
 
     public void deleteCollection(){
         try {
-            collectionDAO.deleteAllCollection();
+            collectionDAO.deleteAllCollection(user.getId());
         } catch (SQLException e) {
             System.err.println("Errore durante la rimozione della collezione: "+e.getMessage());
         }
@@ -38,7 +46,7 @@ public class CollectionService {
 
     public ResultSet getAllCollection(){
         try {
-            return collectionDAO.getAllCollection();
+            return collectionDAO.getAllCollection(user.getId());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -47,7 +55,7 @@ public class CollectionService {
 
     public ResultSet getBoardgamesByName(String name){
         try {
-            return collectionDAO.getBoardGameByName(name);
+            return collectionDAO.getBoardGameByName(name,user.getId());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -56,7 +64,7 @@ public class CollectionService {
 
     public ResultSet getBoardgamesByPlayer(int player){
         try {
-            return collectionDAO.getBoardGameByPlayers(player);
+            return collectionDAO.getBoardGameByPlayers(player,user.getId());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -65,7 +73,7 @@ public class CollectionService {
 
     public ResultSet getBoardgamesByMinDuration(int minDuration){
         try {
-            return collectionDAO.getBoardGameByMinDuration(minDuration);
+            return collectionDAO.getBoardGameByMinDuration(minDuration,user.getId());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -74,7 +82,7 @@ public class CollectionService {
 
     public ResultSet getBoardgamesByMaxDuration(int maxDuration){
         try {
-            return collectionDAO.getBoardGameByMaxDuration(maxDuration);
+            return collectionDAO.getBoardGameByMaxDuration(maxDuration,user.getId());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -83,7 +91,7 @@ public class CollectionService {
 
     public ResultSet getCompetitiveBoardGame(boolean competitive){
         try {
-            return collectionDAO.getCompetitiveBoardGame(competitive);
+            return collectionDAO.getCompetitiveBoardGame(competitive,user.getId());
         } catch (SQLException e) {
             e.printStackTrace();
         }

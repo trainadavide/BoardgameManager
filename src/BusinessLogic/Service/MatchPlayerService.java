@@ -5,6 +5,8 @@ import DAO.MatchPlayerDAO;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+//TODO implement entity modification in service
+
 public class MatchPlayerService {
     private MatchPlayerDAO matchPlayerDAO;
 

@@ -32,4 +32,8 @@ public class User {
     public Friends getFriends() {
         return friends;
     }
+
+    public int getId() {
+        return id;
+    }
 }
