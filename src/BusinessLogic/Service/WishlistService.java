@@ -2,19 +2,20 @@ package BusinessLogic.Service;
 
 import DAO.CollectionDAO;
 import DAO.WishlistDAO;
+import Model.Boardgame;
 import Model.User;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-//TODO implement entity modification in service
-
+import java.util.ArrayList;
 public class WishlistService {
     private WishlistDAO wishlistDAO;
+    private BoardgameService boardgameService;
     private User user;
 
-    public WishlistService(WishlistDAO wishlistDAO){
+    public WishlistService(WishlistDAO wishlistDAO,BoardgameService boardgameService){
         this.wishlistDAO = wishlistDAO;
+        this.boardgameService = boardgameService;
     }
 
     public void setUser(User user){
@@ -24,6 +25,8 @@ public class WishlistService {
     public void addGameToWishlist(int gameId){
         try {
             wishlistDAO.addBoardGame(gameId, user.getId());
+            Boardgame bg = boardgameService.createBoardgameFromId(gameId);
+            user.getWishlist().addToWishlist(bg);
         } catch (SQLException e) {
             System.err.println("Errore durante l'aggiunta alla collezione: "+e.getMessage());
         }
@@ -32,6 +35,7 @@ public class WishlistService {
     public void removeGameFromWishlist(int gameId){
         try {
             wishlistDAO.deleteBoardGame(gameId, user.getId());
+            user.getWishlist().removeFromWishlist(gameId);
         } catch (SQLException e) {
             System.err.println("Errore durante la rimozione dalla collezione: "+e.getMessage());
         }
@@ -40,6 +44,7 @@ public class WishlistService {
     public void deleteWishlist(){
         try {
             wishlistDAO.deleteAllWishlist(user.getId());
+            user.getWishlist().deleteWishlist();
         } catch (SQLException e) {
             System.err.println("Errore durante la rimozione della collezione: "+e.getMessage());
         }
@@ -47,7 +52,15 @@ public class WishlistService {
 
     public ResultSet getAllWishlist(){
         try {
-            return wishlistDAO.getAllWishlist(user.getId());
+            ResultSet rs = wishlistDAO.getAllWishlist(user.getId());
+            ArrayList<Boardgame> wishlist = new ArrayList<>();
+            Boardgame bg;
+            while (rs.next()){
+                bg = boardgameService.createBoardgameFromId(rs.getInt("gameid"));
+                wishlist.add(bg);
+            }
+            user.getWishlist().loadWishlist(wishlist);
+            return rs;
         } catch (SQLException e) {
             e.printStackTrace();
         }

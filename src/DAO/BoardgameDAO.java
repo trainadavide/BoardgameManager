@@ -8,6 +8,11 @@ public class BoardgameDAO {
         String query = "SELECT * FROM boardgame";
         return ManagerDAO.result(query);
     }
+
+    public ResultSet getBoardGameById(int id) throws SQLException {
+        String query = "SELECT * FROM boardgame b WHERE id ="+id;
+        return ManagerDAO.result(query);
+    }
     public ResultSet getBoardGameByName(String name) throws SQLException {
         String query = "SELECT * FROM boardgame b WHERE LOWER(b.name) LIKE LOWER('"+name+"%')";
         return ManagerDAO.result(query);
