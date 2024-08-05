@@ -23,4 +23,11 @@ public class Friends {
     public void deleteFriendsList(){
         friends = new ArrayList<Player>();
     }
+
+    public void editNickname(int playerId, String newNickname){
+        for (int i=0; i<friends.size(); i++){
+            if (friends.get(i).getId()==playerId)
+                friends.get(i).setNickname(newNickname);
+        }
+    }
 }

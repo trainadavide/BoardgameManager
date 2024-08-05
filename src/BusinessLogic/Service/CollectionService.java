@@ -1,20 +1,23 @@
 package BusinessLogic.Service;
 
 import DAO.CollectionDAO;
+import Model.Boardgame;
 import Model.User;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-//TODO implement entity modification in service
+import java.util.ArrayList;
 
 public class CollectionService {
     private CollectionDAO collectionDAO;
 
+    private BoardgameService boardgameService;
+
     private User user;
 
-    public CollectionService(CollectionDAO collectionDAO){
+    public CollectionService(CollectionDAO collectionDAO, BoardgameService boardgameService){
         this.collectionDAO = collectionDAO;
+        this.boardgameService = boardgameService;
     }
 
     public void setUser(User user){
@@ -23,6 +26,8 @@ public class CollectionService {
     public void addGameToCollection(int gameId){
         try {
             collectionDAO.addBoardGame(gameId, user.getId());
+            Boardgame bg = boardgameService.createBoardgameFromId(gameId);
+            user.getCollection().addToCollection(bg);
         } catch (SQLException e) {
             System.err.println("Errore durante l'aggiunta alla collezione: "+e.getMessage());
         }
@@ -31,6 +36,7 @@ public class CollectionService {
     public void removeGameFromCollection(int gameId){
         try {
             collectionDAO.deleteBoardGame(gameId,user.getId());
+            user.getCollection().removeFromCollection(gameId);
         } catch (SQLException e) {
             System.err.println("Errore durante la rimozione dalla collezione: "+e.getMessage());
         }
@@ -39,6 +45,7 @@ public class CollectionService {
     public void deleteCollection(){
         try {
             collectionDAO.deleteAllCollection(user.getId());
+            user.getCollection().deleteCollection();
         } catch (SQLException e) {
             System.err.println("Errore durante la rimozione della collezione: "+e.getMessage());
         }
@@ -46,7 +53,15 @@ public class CollectionService {
 
     public ResultSet getAllCollection(){
         try {
-            return collectionDAO.getAllCollection(user.getId());
+            ResultSet rs = collectionDAO.getAllCollection(user.getId());
+            ArrayList<Boardgame> collection = new ArrayList<>();
+            Boardgame bg;
+            while (rs.next()){
+                bg = boardgameService.createBoardgameFromId(rs.getInt("gameid"));
+                collection.add(bg);
+            }
+            user.getCollection().loadCollection(collection);
+            return rs;
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -54,4 +54,10 @@ public class PlayerDAO {
             alreadyUsed = true;
         return alreadyUsed;
     }
+
+    public int mostRecentlyAdded(int userId)throws SQLException{
+        String query = "SELECT max(playerid) FROM players WHERE userid ="+userId;
+        ResultSet rs = ManagerDAO.result(query);
+        return rs.getInt("playerid");
+    }
 }

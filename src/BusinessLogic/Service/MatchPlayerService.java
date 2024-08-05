@@ -1,17 +1,25 @@
 package BusinessLogic.Service;
 
 import DAO.MatchPlayerDAO;
+import Model.Player;
+import Model.User;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-//TODO implement entity modification in service
-
 public class MatchPlayerService {
     private MatchPlayerDAO matchPlayerDAO;
+    private PlayerService playerService;
 
-    public MatchPlayerService(MatchPlayerDAO matchPlayerDAO){
+    private User user;
+
+    public MatchPlayerService(MatchPlayerDAO matchPlayerDAO, PlayerService playerService){
         this.matchPlayerDAO = matchPlayerDAO;
+        this.playerService = playerService;
+    }
+
+    public void setUser(User user){
+        this.user = user;
     }
 
     public ResultSet getMatchDetailsById(int matchId){
@@ -26,6 +34,7 @@ public class MatchPlayerService {
     public void editScore(int matchId, int playerId, int updatedScore){
         try {
             matchPlayerDAO.editScore(matchId, playerId, updatedScore);
+            user.getMatchLog().getMatchById(matchId).editScore(playerId, updatedScore);
         } catch (SQLException e) {
             System.err.println("Errore durante la modifica del punteggio: "+e.getMessage());
         }
@@ -43,6 +52,7 @@ public class MatchPlayerService {
     public void removePlayerFromMatch(int matchId, int playerId){
         try {
             matchPlayerDAO.removePlayerFromMatch(matchId, playerId);
+            user.getMatchLog().getMatchById(matchId).removePlayer(playerId);
         } catch (SQLException e) {
             System.err.println("Errore durante l'eliminazione del player dal match: "+e.getMessage());
         }
@@ -51,6 +61,8 @@ public class MatchPlayerService {
     public void addPlayerToMatch(int matchId, int playerId, int score){
         try {
             matchPlayerDAO.addPlayerToMatch(matchId, playerId, score);
+            Player p = new Player(playerId, playerService.getNicknameById(playerId));
+            user.getMatchLog().getMatchById(matchId).addPlayer(p,score);
         } catch (SQLException e) {
             System.err.println("Errore durante l'aggiunta del player al match: "+e.getMessage());
         }

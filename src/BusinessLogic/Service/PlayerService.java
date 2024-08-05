@@ -2,13 +2,14 @@ package BusinessLogic.Service;
 
 import DAO.ManagerDAO;
 import DAO.PlayerDAO;
+import Model.Boardgame;
+import Model.Player;
 import Model.User;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-//TODO implement entity modification in service
+import java.util.ArrayList;
 
 public class PlayerService {
     private PlayerDAO playerDAO;
@@ -24,11 +25,15 @@ public class PlayerService {
 
     public void addPlayer(String nickname)throws SQLException {
         playerDAO.addPlayer(nickname, user.getId());
+        int newPlayerId = playerDAO.mostRecentlyAdded(user.getId());
+        Player p = new Player(newPlayerId, nickname);
+        user.getFriends().addPlayer(p);
     }
 
     public void deletePlayer(int playerId){
         try {
             playerDAO.deletePlayer(playerId);
+            user.getFriends().removeFromFriends(playerId);
         } catch (SQLException e) {
             System.err.println("Errore durante l'eliminazione del player: "+e.getMessage());
         }
@@ -37,6 +42,7 @@ public class PlayerService {
     public void deleteAllPlayers(){
         try {
             playerDAO.deleteAllPlayers(user.getId());
+            user.getFriends().deleteFriendsList();
         } catch (SQLException e) {
             System.err.println("Errore durante l'eliminazione dei player: "+e.getMessage());
         }
@@ -53,9 +59,17 @@ public class PlayerService {
 
     public ResultSet getAllPlayers(){
         try {
-            return playerDAO.getAllPlayers(user.getId());
+            ResultSet rs = playerDAO.getAllPlayers(user.getId());
+            ArrayList<Player> friends = new ArrayList<>();
+            Player p;
+            while (rs.next()){
+                p = new Player(rs.getInt("playerid"),rs.getString("nickname"));
+                friends.add(p);
+            }
+            user.getFriends().loadFriends(friends);
+            return rs;
         } catch (SQLException e) {
-            System.err.println("Errore durante la lettura dei player: "+e.getMessage());
+            e.printStackTrace();
         }
         return null;
     }
@@ -63,8 +77,15 @@ public class PlayerService {
     public void editPlayerName(int playerId, String newNickname){
         try {
             playerDAO.editName(playerId, newNickname, user.getId());
+            user.getFriends().editNickname(playerId,newNickname);
         } catch (SQLException e) {
             System.err.println("Errore durante la modifica del player: "+e.getMessage());
         }
+    }
+
+    public String getNicknameById(int playerId) throws SQLException {
+        String query = "SELECT nickname FROM players WHERE playerId ="+playerId;
+        ResultSet rs = ManagerDAO.result(query);
+        return rs.getString("nickname");
     }
 }

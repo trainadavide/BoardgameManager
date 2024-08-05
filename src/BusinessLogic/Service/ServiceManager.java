@@ -21,10 +21,10 @@ public class ServiceManager{
         PlayerDAO playerDAO = new PlayerDAO();
         BoardgameDAO boardgameDAO = new BoardgameDAO();
         BoardgameService boardgameService = new BoardgameService(boardgameDAO);
-        collectionService = new CollectionService(collectionDAO);
-        matchPlayerService = new MatchPlayerService(matchPlayerDAO);
-        matchService = new MatchService(matchDAO);
+        collectionService = new CollectionService(collectionDAO, boardgameService);
         playerService = new PlayerService(playerDAO);
+        matchService = new MatchService(matchDAO, matchPlayerService, boardgameService, playerService);
+        matchPlayerService = new MatchPlayerService(matchPlayerDAO, playerService);
         wishlistService = new WishlistService(wishlistDAO, boardgameService);
         //TODO add userservice and userDao
     }

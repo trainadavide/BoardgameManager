@@ -23,4 +23,13 @@ public class MatchLog {
     public void deleteAllMatch(){
         matches = new ArrayList<Match>();
     }
+
+    public Match getMatchById(int matchId){
+        for(int i = 0; i<matches.size(); i++){
+            if (matches.get(i).getId()==matchId){
+                return matches.get(i);
+            }
+        }
+        return null;
+    }
 }

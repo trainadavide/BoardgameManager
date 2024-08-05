@@ -50,4 +50,10 @@ public class MatchDAO {
         String query = "SELECT * FROM match WHERE game ="+gameId+" AND userid="+userId;
         return ManagerDAO.result(query);
     }
+
+    public int mostRecentlyAdded(int userId)throws SQLException{
+        String query = "SELECT max(matchid) FROM match WHERE userid ="+userId;
+        ResultSet rs = ManagerDAO.result(query);
+        return rs.getInt("matchid");
+    }
 }
