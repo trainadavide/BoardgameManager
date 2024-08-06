@@ -56,11 +56,15 @@ public class CollectionService {
             ResultSet rs = collectionDAO.getAllCollection(user.getId());
             ArrayList<Boardgame> collection = new ArrayList<>();
             Boardgame bg;
-            while (rs.next()){
-                bg = boardgameService.createBoardgameFromId(rs.getInt("gameid"));
-                collection.add(bg);
+
+            if (rs != null) {
+                while (rs.next()){
+                    bg = boardgameService.createBoardgameFromId(rs.getInt("gameid"));
+                    collection.add(bg);
+                }
+                user.getCollection().loadCollection(collection);
             }
-            user.getCollection().loadCollection(collection);
+
             return rs;
         } catch (SQLException e) {
             e.printStackTrace();

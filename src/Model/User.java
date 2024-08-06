@@ -15,6 +15,17 @@ public class User {
         this.email = email;
         this.password = password;
         this.username = username;
+        collection = new Collection();
+        wishlist = new Wishlist();
+        matchLog = new MatchLog();
+        friends = new Friends();
+    }
+
+    public User(){
+        collection = new Collection();
+        wishlist = new Wishlist();
+        matchLog = new MatchLog();
+        friends = new Friends();
     }
 
     public Collection getCollection() {

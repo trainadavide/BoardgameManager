@@ -10,6 +10,7 @@ public class Player {
     public int getId() {
         return id;
     }
+
     public String getNickname() {
         return nickname;
     }

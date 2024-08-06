@@ -6,31 +6,42 @@ import java.sql.SQLException;
 
 public class MatchPlayerDAO {
     public ResultSet getMatchDetailsById(int id)throws SQLException {
-        String query = "SELECT id_player, points FROM match_players WHERE id_match = "+id;
-        return ManagerDAO.result(query);
+        String query = "SELECT playerid, score FROM match_players WHERE matchid = ?";
+        PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
+        ps.setInt(1,id);
+        return ps.executeQuery();
     }
 
     public void editScore(int match_id, int player_id, int updatedScore)throws SQLException{
-        String query = "UPDATE match_players SET points = "+updatedScore+" WHERE id_match ="
-                +match_id+" AND id_player ="+player_id;
-        ManagerDAO.result(query);
+        String query = "UPDATE match_players SET score = ? WHERE matchid = ? AND playerid = ?";
+        PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
+        ps.setInt(1,updatedScore);
+        ps.setInt(2,match_id);
+        ps.setInt(3,player_id);
+        ps.executeUpdate();
     }
 
     public ResultSet getWinners(int match_id)throws SQLException{
-        String query ="SELECT mp.id_player, p.nickname FROM match_players mp JOIN players p ON mp.id_player = p.id " +
-                "WHERE points = (SELECT max(points) FROM match_players WHERE id_match ="+match_id+")"+
-                "AND id_match ="+match_id;
-        return ManagerDAO.result(query);
+        String query ="SELECT mp.player, p.nickname FROM match_players mp JOIN players p ON mp.playerid = p.playerid " +
+                "WHERE score = (SELECT max(score) FROM match_players WHERE matchid = ?)"+
+                "AND matchid = ?";
+        PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
+        ps.setInt(1,match_id);
+        ps.setInt(2,match_id);
+        return ps.executeQuery();
     }
 
     public void removePlayerFromMatch(int match_id, int player_id)throws SQLException{
-        String query = "DELETE FROM match_players WHERE id_match ="+match_id+
-                " AND id_player ="+player_id;
-        ManagerDAO.result(query);
+        String query = "DELETE FROM match_players WHERE matchid = ?"+
+                " AND playerid = ?";
+        PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
+        ps.setInt(1,match_id);
+        ps.setInt(2,player_id);
+        ps.executeUpdate();
     }
 
     public void addPlayerToMatch(int match_id, int player_id, int score)throws SQLException{
-        String query = "INSERT INTO match_players (id_match, id_player, points) VALUES (?, ?, ?)";
+        String query = "INSERT INTO match_players (matchid, playerid, score) VALUES (?, ?, ?)";
         PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
         ps.setInt(1, match_id);
         ps.setInt(2, player_id);

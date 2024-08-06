@@ -18,13 +18,14 @@ public class MatchDAO {
 
         int matchId;
 
-        query = "SELECT max(id) as massimo FROM match";
-        ResultSet rs = ManagerDAO.result(query);
+        query = "SELECT max(matchid) as massimo FROM match";
+        ps = ManagerDAO.getConnection().prepareStatement(query);
+        ResultSet rs = ps.executeQuery();
         rs.absolute(1);
         matchId = rs.getInt("massimo");
 
         for (int i=0; i<playersId.length; i++){
-            query = "INSERT INTO match_players (id_match, id_player, points) VALUES (?, ?, ?)";
+            query = "INSERT INTO match_players (matchid, playerid, score) VALUES (?, ?, ?)";
             ps = ManagerDAO.getConnection().prepareStatement(query);
             ps.setInt(1,matchId);
             ps.setInt(2, playersId[i]);
@@ -34,7 +35,7 @@ public class MatchDAO {
     }
 
     public void removeMatch(int matchId)throws SQLException{
-        String query = "DELETE FROM match WHERE id = ?";
+        String query = "DELETE FROM match WHERE matchid = ?";
         PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
         ps.setInt(1, matchId);
         ps.executeUpdate();
@@ -42,18 +43,25 @@ public class MatchDAO {
     }
 
     public ResultSet getMatches(int userId)throws SQLException{
-        String query = "SELECT * FROM match WHERE userid="+userId;
-        return ManagerDAO.result(query);
+        String query = "SELECT * FROM match WHERE userid = ?";
+        PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
+        ps.setInt(1, userId);
+        return ps.executeQuery();
     }
 
     public ResultSet getMatchesByGame(int gameId,int userId)throws SQLException{
-        String query = "SELECT * FROM match WHERE game ="+gameId+" AND userid="+userId;
-        return ManagerDAO.result(query);
+        String query = "SELECT * FROM match WHERE gameid = ? AND userid = ?";
+        PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
+        ps.setInt(1,gameId);
+        ps.setInt(2, userId);
+        return ps.executeQuery();
     }
 
     public int mostRecentlyAdded(int userId)throws SQLException{
-        String query = "SELECT max(matchid) FROM match WHERE userid ="+userId;
-        ResultSet rs = ManagerDAO.result(query);
+        String query = "SELECT max(matchid) FROM match WHERE userid = ?";
+        PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
+        ps.setInt(1, userId);
+        ResultSet rs = ps.executeQuery();
         return rs.getInt("matchid");
     }
 }

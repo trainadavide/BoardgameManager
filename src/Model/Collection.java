@@ -16,6 +16,10 @@ public class Collection {
         }
     }
 
+    public int collectionSize(){
+        return collection.size();
+    }
+
     public void addToCollection(Boardgame boardgame){
         collection.add(boardgame);
     }

@@ -11,6 +11,9 @@ public class ServiceManager{
     private MatchService matchService;
     private PlayerService playerService;
     private WishlistService wishlistService;
+    private BoardgameService boardgameService;
+
+    private UserService userService;
     private User user;
 
     private ServiceManager(){
@@ -20,13 +23,16 @@ public class ServiceManager{
         WishlistDAO wishlistDAO = new WishlistDAO();
         PlayerDAO playerDAO = new PlayerDAO();
         BoardgameDAO boardgameDAO = new BoardgameDAO();
-        BoardgameService boardgameService = new BoardgameService(boardgameDAO);
+        UserDAO userDAO = new UserDAO();
+        boardgameService = new BoardgameService(boardgameDAO);
         collectionService = new CollectionService(collectionDAO, boardgameService);
         playerService = new PlayerService(playerDAO);
         matchService = new MatchService(matchDAO, matchPlayerService, boardgameService, playerService);
         matchPlayerService = new MatchPlayerService(matchPlayerDAO, playerService);
         wishlistService = new WishlistService(wishlistDAO, boardgameService);
-        //TODO add userservice and userDao
+        userService = new UserService(userDAO,matchService,playerService,collectionService,wishlistService);
+
+        //TODO set user on services
     }
 
     public static ServiceManager getInstance() {
@@ -53,5 +59,13 @@ public class ServiceManager{
 
     public WishlistService getWishlistService() {
         return wishlistService;
+    }
+
+    public UserService getUserService() {
+        return userService;
+    }
+
+    public BoardgameService getBoardgameService() {
+        return boardgameService;
     }
 }
