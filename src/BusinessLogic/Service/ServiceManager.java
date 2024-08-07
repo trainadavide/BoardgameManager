@@ -31,8 +31,6 @@ public class ServiceManager{
         matchPlayerService = new MatchPlayerService(matchPlayerDAO, playerService);
         wishlistService = new WishlistService(wishlistDAO, boardgameService);
         userService = new UserService(userDAO,matchService,playerService,collectionService,wishlistService);
-
-        //TODO set user on services
     }
 
     public static ServiceManager getInstance() {
