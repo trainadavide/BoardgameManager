@@ -47,6 +47,28 @@ public class PageNavigation {
         home.setLocation(frameLocation);
     }
 
+    public void navigateToLogin(){
+        frameSize = currentFrame.getSize();
+        frameLocation = currentFrame.getLocation();
+
+        currentFrame.dispose();
+
+        Login login = new Login(engine);
+        login.setSize(frameSize);
+        login.setLocation(frameLocation);
+    }
+
+    public void navigateToRegister(){
+        frameSize = currentFrame.getSize();
+        frameLocation = currentFrame.getLocation();
+
+        currentFrame.dispose();
+
+        Register register = new Register(engine);
+        register.setSize(frameSize);
+        register.setLocation(frameLocation);
+    }
+
     public void navigateToCollection(){
         frameSize = currentFrame.getSize();
         frameLocation = currentFrame.getLocation();
