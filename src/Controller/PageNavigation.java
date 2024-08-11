@@ -1,7 +1,5 @@
 package Controller;
 
-import Model.Collection;
-import Model.Friends;
 import View.*;
 
 import javax.swing.*;

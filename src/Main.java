@@ -15,7 +15,7 @@ public class Main {
         UserService us = (UserService) sf.getService(sf.USER_SERVICE);
         try {
             if(us.checkCredentials("admin@gmail.com","admin"))
-                us.login("admin@gmail.com","admin");
+                us.login("admin@gmail.com");
         } catch (SQLException e) {
 
         }

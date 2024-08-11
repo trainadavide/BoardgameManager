@@ -23,31 +23,37 @@ public class CollectionService {
     public void setUser(User user){
         this.user = user;
     }
-    public void addGameToCollection(int gameId){
+    public boolean addGameToCollection(int gameId){
         try {
             collectionDAO.addBoardGame(gameId, user.getId());
             Boardgame bg = boardgameService.createBoardgameFromId(gameId);
             user.getCollection().addToCollection(bg);
+            return true;
         } catch (SQLException e) {
             System.err.println("Errore durante l'aggiunta alla collezione: "+e.getMessage());
+            return false;
         }
     }
 
-    public void removeGameFromCollection(int gameId){
+    public boolean removeGameFromCollection(int gameId){
         try {
             collectionDAO.deleteBoardGame(gameId,user.getId());
             user.getCollection().removeFromCollection(gameId);
+            return true;
         } catch (SQLException e) {
             System.err.println("Errore durante la rimozione dalla collezione: "+e.getMessage());
+            return false;
         }
     }
 
-    public void deleteCollection(){
+    public boolean deleteCollection(){
         try {
             collectionDAO.deleteAllCollection(user.getId());
             user.getCollection().deleteCollection();
+            return true;
         } catch (SQLException e) {
             System.err.println("Errore durante la rimozione della collezione: "+e.getMessage());
+            return false;
         }
     }
 

@@ -1,6 +1,5 @@
 package BusinessLogic.Service;
 
-import DAO.CollectionDAO;
 import DAO.WishlistDAO;
 import Model.Boardgame;
 import Model.User;
@@ -22,31 +21,37 @@ public class WishlistService {
         this.user = user;
     }
 
-    public void addGameToWishlist(int gameId){
+    public boolean addGameToWishlist(int gameId){
         try {
             wishlistDAO.addBoardGame(gameId, user.getId());
             Boardgame bg = boardgameService.createBoardgameFromId(gameId);
             user.getWishlist().addToWishlist(bg);
+            return true;
         } catch (SQLException e) {
             System.err.println("Errore durante l'aggiunta alla collezione: "+e.getMessage());
+            return false;
         }
     }
 
-    public void removeGameFromWishlist(int gameId){
+    public boolean removeGameFromWishlist(int gameId){
         try {
             wishlistDAO.deleteBoardGame(gameId, user.getId());
             user.getWishlist().removeFromWishlist(gameId);
+            return true;
         } catch (SQLException e) {
             System.err.println("Errore durante la rimozione dalla collezione: "+e.getMessage());
+            return false;
         }
     }
 
-    public void deleteWishlist(){
+    public boolean deleteWishlist(){
         try {
             wishlistDAO.deleteAllWishlist(user.getId());
             user.getWishlist().deleteWishlist();
+            return true;
         } catch (SQLException e) {
             System.err.println("Errore durante la rimozione della collezione: "+e.getMessage());
+            return false;
         }
     }
 

@@ -78,4 +78,16 @@ public class UserDAO {
         return false;
     }
 
+    public boolean emailAlreadyUsed(String email) throws SQLException {
+        String query="SELECT COUNT(*) FROM users WHERE email = ?";
+        PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
+        ps.setString(1,email);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            return rs.getInt(1) >= 1;
+        }
+        return false;
+    }
+
+
 }

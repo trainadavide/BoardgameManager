@@ -23,11 +23,15 @@ public class PlayerService {
         this.user = user;
     }
 
-    public void addPlayer(String nickname)throws SQLException {
-        playerDAO.addPlayer(nickname, user.getId());
-        int newPlayerId = playerDAO.mostRecentlyAdded(user.getId());
-        Player p = new Player(newPlayerId, nickname);
-        user.getFriends().addPlayer(p);
+    public void addPlayer(String nickname) {
+        try {
+            playerDAO.addPlayer(nickname, user.getId());
+            int newPlayerId = playerDAO.mostRecentlyAdded(user.getId());
+            Player p = new Player(newPlayerId, nickname);
+            user.getFriends().addPlayer(p);
+        }catch (SQLException e) {
+            System.err.println("Errore durante l'aggiunta del player: "+e.getMessage());
+        }
     }
 
     public void deletePlayer(int playerId){

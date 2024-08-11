@@ -36,7 +36,7 @@ public class UserService {
         }
     }
 
-    public void login(String email, String password) throws SQLException {
+    public void login(String email) throws SQLException {
         user = userDAO.selectUserByEmail(email);
 
         collectionService.setUser(user);
@@ -60,6 +60,7 @@ public class UserService {
     public void register(String email, String password, String username) {
         try {
             userDAO.addUser(email, password, username);
+            user = userDAO.selectUserByEmail(email);
         } catch (SQLException e) {
 
         }
@@ -68,6 +69,14 @@ public class UserService {
     public boolean checkUserName(String username) {
         try {
             return userDAO.checkUserName(username);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public boolean checkEmailAlreadyUsed(String email) {
+        try {
+            return userDAO.emailAlreadyUsed(email);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
