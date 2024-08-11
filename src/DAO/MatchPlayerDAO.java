@@ -22,7 +22,7 @@ public class MatchPlayerDAO {
     }
 
     public ResultSet getWinners(int match_id)throws SQLException{
-        String query ="SELECT mp.player, p.nickname FROM match_players mp JOIN players p ON mp.playerid = p.playerid " +
+        String query ="SELECT mp.playerid, p.nickname FROM match_players mp JOIN players p ON mp.playerid = p.playerid " +
                 "WHERE score = (SELECT max(score) FROM match_players WHERE matchid = ?)"+
                 "AND matchid = ?";
         PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);

@@ -8,7 +8,6 @@ import java.util.Vector;
 public class Match {
     private final int id;
     private final Boardgame boardgame;
-
     private Player[] players;
     private int[] points;
 

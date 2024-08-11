@@ -2,14 +2,16 @@ package Controller;
 
 import BusinessLogic.Service.*;
 import Model.Boardgame;
+import Model.Match;
+import Model.Player;
 import Model.User;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Engine {
-    //TODO implement all the functions
     private static Engine istance;
     private User user;
     private ServiceFactory sf;
@@ -58,6 +60,9 @@ public class Engine {
             System.out.println("Credenziali errate");
         }
         return registered;
+    }
+    public void logout() {
+        user=null;
     }
 
     // COLLECTION ALTER FUNCTION --------------------------------------------
@@ -253,12 +258,46 @@ public class Engine {
     }
 
 
-    // TODO MATCHLIST ALTER FUNCTION -------------------------------------------
+    // MATCHLIST ALTER FUNCTION -------------------------------------------
 
-    // TODO MATCH ALTER FUNCTION ------------------------------------------------
+    public boolean addMatch(int gameId, int[] playersId, int[] points, Date date, int duration){
+        MatchService matchService = (MatchService) sf.getService(sf.MATCH_SERVICE);
+        return matchService.addMatch(gameId, playersId, points, date, duration);
+    }
+    public boolean removeMatch(int matchId){
+        MatchService matchService = (MatchService) sf.getService(sf.MATCH_SERVICE);
+        return matchService.removeMatch(matchId);
+    }
 
-    // TODO MATCHLIST SEARCH FUNCTION -------------------------------------------
+    // MATCHLIST SEARCH FUNCTION -------------------------------------------
 
+    public ArrayList<Match> selectMatchesByGame (int gameId){
+        MatchService matchService = (MatchService) sf.getService(sf.MATCH_SERVICE);
+        return matchService.getMatchesByGame(gameId);
+    }
 
+    // MATCH ALTER FUNCTION ------------------------------------------------
+
+    public boolean editPlayerScore(int matchId, int playerId, int updatedScore){
+        MatchPlayerService matchPlayerService = (MatchPlayerService) sf.getService(sf.MATCH_PLAYER_SERVICE);
+        return matchPlayerService.editScore(matchId,playerId,updatedScore);
+    }
+
+    public boolean addPlayerToMatch(int matchId, int playerId, int score){
+        MatchPlayerService matchPlayerService = (MatchPlayerService) sf.getService(sf.MATCH_PLAYER_SERVICE);
+        return matchPlayerService.addPlayerToMatch(matchId,playerId,score);
+    }
+
+    public boolean removePlayerFromMatch(int matchId, int playerId){
+        MatchPlayerService matchPlayerService = (MatchPlayerService) sf.getService(sf.MATCH_PLAYER_SERVICE);
+        return matchPlayerService.removePlayerFromMatch(matchId, playerId);
+    }
+
+    // MATCHLIST SEARCH FUNCTION -------------------------------------------
+
+    public ArrayList<Player> getMatchWinners(int matchId){
+        MatchPlayerService matchPlayerService = (MatchPlayerService) sf.getService(sf.MATCH_PLAYER_SERVICE);
+        return matchPlayerService.getWinners(matchId);
+    }
 
 }

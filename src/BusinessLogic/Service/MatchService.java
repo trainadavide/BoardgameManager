@@ -1,15 +1,12 @@
 package BusinessLogic.Service;
 
-import DAO.ManagerDAO;
 import DAO.MatchDAO;
-import DAO.MatchPlayerDAO;
 import Model.Boardgame;
 import Model.Match;
 import Model.Player;
 import Model.User;
 
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -36,7 +33,7 @@ public class MatchService {
         this.user=user;
     }
 
-    public void addMatch(int gameId, int[] playersId, int[] points, Date date, int duration){
+    public boolean addMatch(int gameId, int[] playersId, int[] points, Date date, int duration){
         try {
             matchDAO.addMatch(gameId, playersId, points, date, duration, user.getId());
             int matchId = matchDAO.mostRecentlyAdded(user.getId());
@@ -48,17 +45,21 @@ public class MatchService {
                 m.addPlayer(p,points[i]);
             }
             user.getMatchLog().addMatch(m);
+            return true;
         } catch (SQLException e) {
             System.err.println("Errore durante l'aggiunta del match: "+e.getMessage());
+            return false;
         }
     }
 
-    public void removeMatch(int matchId){
+    public boolean removeMatch(int matchId){
         try {
             matchDAO.removeMatch(matchId);
             user.getMatchLog().removeMatch(matchId);
+            return true;
         } catch (SQLException e) {
             System.err.println("Errore durante la rimozione del match: "+e.getMessage());
+            return false;
         }
     }
 
@@ -91,9 +92,27 @@ public class MatchService {
         return null;
     }
 
-    public ResultSet getMatchesByGame(int gameId){
+    public ArrayList<Match> getMatchesByGame(int gameId){
         try {
-            return matchDAO.getMatchesByGame(gameId, user.getId());
+            ResultSet rs = matchDAO.getMatchesByGame(gameId, user.getId());
+            ArrayList<Match> matches = new ArrayList<>();
+            Match m;
+            Boardgame bg;
+            ResultSet matchDetails;
+            while (rs.next()){
+                bg = boardgameService.createBoardgameFromId(rs.getInt("gameid"));
+                m = new Match(rs.getInt("matchid"), bg);
+                matchDetails = matchPlayerService.getMatchDetailsById(rs.getInt("matchid"));
+                Player p;
+                int playerId;
+                while (matchDetails.next()){
+                    playerId = matchDetails.getInt("playerid");
+                    p = new Player(playerId, playerService.getNicknameById(playerId));
+                    m.addPlayer(p,matchDetails.getInt("score"));
+                }
+                matches.add(m);
+            }
+            return matches;
         } catch (SQLException e) {
             System.err.println("Errore nella lettura dei match: "+e.getMessage());
         }
