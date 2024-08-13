@@ -51,7 +51,7 @@ public class Engine {
     public boolean register(String email, String password, String username){
         boolean registered = false;
         UserService userService = (UserService) sf.getService(sf.USER_SERVICE);
-        if(userService.checkEmailAlreadyUsed(email)){
+        if(!userService.checkEmailAlreadyUsed(email)){
             userService.register(email,password,username);
             this.user = userService.getCurrentUser();
             registered = true;

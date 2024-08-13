@@ -41,7 +41,7 @@ public class UserDAO {
     }
 
     public void updateUser(int id, String username, String email, String password) throws SQLException{
-        String query = "UPDATE users SET username = ?, email = ?, psw = ? WHERE id_user = ?";
+        String query = "UPDATE users SET username = ?, email = ?, password = ? WHERE id_user = ?";
         PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
         ps.setString(1,username);
         ps.setString(2,email);
@@ -50,8 +50,8 @@ public class UserDAO {
         ps.executeUpdate();
     }
 
-    public void addUser(String username, String email, String password) throws SQLException{
-        String query = "INSERT INTO users (username, email, psw) VALUES (?, ?, ?)";
+    public void addUser(String email, String password, String username) throws SQLException{
+        String query = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
         PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
         ps.setString(1,username);
         ps.setString(2,email);

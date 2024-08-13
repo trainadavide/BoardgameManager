@@ -2,22 +2,20 @@ import BusinessLogic.Service.BoardgameService;
 import BusinessLogic.Service.ServiceFactory;
 import BusinessLogic.Service.UserService;
 import DAO.*;
+import View.*;
+import Controller.*;
 
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Main {
-    public static void main(String[] args) {
-        ServiceFactory sf;
-        sf = ServiceFactory.getInstance();
+    public static void main(String[] args) throws SQLException {
 
-        UserService us = (UserService) sf.getService(sf.USER_SERVICE);
-        try {
-            if(us.checkCredentials("admin@gmail.com","admin"))
-                us.login("admin@gmail.com");
-        } catch (SQLException e) {
+        Engine engine = Engine.getInstance();
 
-        }
+        Login loginView = new Login(engine);
+        loginView.setVisible(true);
+
     }
 }

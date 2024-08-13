@@ -43,6 +43,7 @@ public class PageNavigation {
         Home home = new Home(engine);
         home.setSize(frameSize);
         home.setLocation(frameLocation);
+        currentFrame = home;
     }
 
     public void navigateToLogin(){
@@ -54,6 +55,7 @@ public class PageNavigation {
         Login login = new Login(engine);
         login.setSize(frameSize);
         login.setLocation(frameLocation);
+        currentFrame = login;
     }
 
     public void navigateToRegister(){
@@ -65,6 +67,7 @@ public class PageNavigation {
         Register register = new Register(engine);
         register.setSize(frameSize);
         register.setLocation(frameLocation);
+        currentFrame = register;
     }
 
     public void navigateToCollection(){
@@ -76,6 +79,7 @@ public class PageNavigation {
         CollectionView collectionView = new CollectionView(engine);
         collectionView.setSize(frameSize);
         collectionView.setLocation(frameLocation);
+        currentFrame = collectionView;
     }
 
     public void navigateToWishlist(){
@@ -87,6 +91,7 @@ public class PageNavigation {
         WishlistView wishlistView = new WishlistView(engine);
         wishlistView.setSize(frameSize);
         wishlistView.setLocation(frameLocation);
+        currentFrame = wishlistView;
     }
 
     public void navigateToPlayers(){
@@ -98,6 +103,7 @@ public class PageNavigation {
         PlayersView playersView = new PlayersView(engine);
         playersView.setSize(frameSize);
         playersView.setLocation(frameLocation);
+        currentFrame = playersView;
     }
 
     public void navigateToMatch(){
@@ -109,6 +115,7 @@ public class PageNavigation {
         MatchView matchView = new MatchView(engine);
         matchView.setSize(frameSize);
         matchView.setLocation(frameLocation);
+        currentFrame = matchView;
     }
 
     public void navigateToBoardgame() {
@@ -120,6 +127,7 @@ public class PageNavigation {
         BoardgameView boardgameView = new BoardgameView(engine);
         boardgameView.setSize(frameSize);
         boardgameView.setLocation(frameLocation);
+        currentFrame = boardgameView;
     }
 
     public void navigateToAddPlayerView(){
@@ -131,6 +139,7 @@ public class PageNavigation {
         AddPlayerView addPlayerView = new AddPlayerView(engine);
         addPlayerView.setSize(frameSize);
         addPlayerView.setLocation(frameLocation);
+        currentFrame = addPlayerView;
     }
 
     public void navigateToAddMatchView(){
@@ -142,5 +151,6 @@ public class PageNavigation {
         AddMatchView addMatchView = new AddMatchView(engine);
         addMatchView.setSize(frameSize);
         addMatchView.setLocation(frameLocation);
+        currentFrame = addMatchView;
     }
 }
