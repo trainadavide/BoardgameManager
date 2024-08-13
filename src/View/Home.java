@@ -113,6 +113,7 @@ private JPanel createMenuPanel() {
         JPanel buttonPanel = new JPanel(new FlowLayout());
         logoutButton = new JButton("Logout");
         logoutButton.addActionListener(e -> {
+            Engine.getInstance().logout();
             PageNavigation pageNavigationController = PageNavigation.getIstance(this);
             pageNavigationController.navigateToLogin();
         });
@@ -122,7 +123,7 @@ private JPanel createMenuPanel() {
 
     private JToggleButton createButton(String title, ButtonGroup buttonGroup, Runnable action) {
         JToggleButton button = new JToggleButton(title);
-        button.setPreferredSize(new Dimension(150, 50));
+        button.setPreferredSize(new Dimension(250, 80));
         buttonGroup.add(button);
         if (action != null) {
             button.addActionListener(e -> action.run());
