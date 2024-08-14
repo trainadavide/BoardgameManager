@@ -6,7 +6,6 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Home extends JFrame {
-    //TODO
     private JLabel welcomeLabel;
     private JButton logoutButton;
     private JButton collectionButton;
@@ -69,19 +68,19 @@ private JPanel createMenuPanel() {
     ButtonGroup buttonGroup = new ButtonGroup();
     PageNavigation pageNavigationController = PageNavigation.getIstance(this);
 
-    JToggleButton collectionButton = createButton("Collection", buttonGroup, () -> {
+    collectionButton = createButton("Collection", buttonGroup, () -> {
         pageNavigationController.navigateToCollection();
     });
 
-    JToggleButton wishlistButton = createButton("Wishlist", buttonGroup, () -> {
+    wishlistButton = createButton("Wishlist", buttonGroup, () -> {
         pageNavigationController.navigateToWishlist();
     });
 
-    JToggleButton playersButton = createButton("Players", buttonGroup, () -> {
+    playersButton = createButton("Players", buttonGroup, () -> {
         pageNavigationController.navigateToPlayers();
     });
 
-    JToggleButton matchButton = createButton("Match", buttonGroup, () -> {
+    matchButton = createButton("Match", buttonGroup, () -> {
         pageNavigationController.navigateToMatch();
     });
 
@@ -120,9 +119,9 @@ private JPanel createMenuPanel() {
         return buttonPanel;
     }
 
-    private JToggleButton createButton(String title, ButtonGroup buttonGroup, Runnable action) {
-        JToggleButton button = new JToggleButton(title);
-        button.setPreferredSize(new Dimension(150, 50));
+    private JButton createButton(String title, ButtonGroup buttonGroup, Runnable action) {
+        JButton button = new JButton(title);
+        button.setPreferredSize(new Dimension(250, 80));
         buttonGroup.add(button);
         if (action != null) {
             button.addActionListener(e -> action.run());
