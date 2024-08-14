@@ -151,6 +151,6 @@ public class PageNavigation {
         AddMatchView addMatchView = new AddMatchView(engine);
         addMatchView.setSize(frameSize);
         addMatchView.setLocation(frameLocation);
-        currentFrame = addMatchView;
+
     }
 }
