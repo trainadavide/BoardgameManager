@@ -12,11 +12,8 @@ public class Login extends JFrame {
 
     private JTextField emailField;
     private JTextField passwordField;
-    private Engine engine;
 
-
-    public Login(Engine engine) {
-        this.engine = engine;
+    public Login() {
         setupWindow();
         JPanel mainPanel = createMainPanel();
         add(mainPanel);
@@ -41,7 +38,6 @@ public class Login extends JFrame {
         JPanel buttonPanel = new JPanel(new GridLayout(11, 1));
         ButtonGroup buttonGroup = new ButtonGroup();
         PageNavigation pageNavigationController = PageNavigation.getIstance(this);
-        pageNavigationController.setEngine(engine);
 
         JToggleButton signInButton = createButton("Sign In", buttonGroup, pageNavigationController::navigateToRegister);
 
@@ -64,12 +60,11 @@ public class Login extends JFrame {
 
             if (email.isEmpty() || password.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Please fill in all fields", "Error", JOptionPane.ERROR_MESSAGE);
-            } else if (!engine.login(email, password)) {
+            } else if (!Engine.getInstance().login(email, password)) {
                 System.out.println("Credenziali non valide");
                 JOptionPane.showMessageDialog(this, "Invalid credentials", "Error", JOptionPane.ERROR_MESSAGE);
             } else {
                 System.out.println("Login effettuato con successo");
-                pageNavigationController.setEngine(engine);
                 pageNavigationController.navigateToHome();
             }
 

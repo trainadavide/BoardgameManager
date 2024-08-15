@@ -13,16 +13,12 @@ public class Home extends JFrame {
     private JButton playersButton;
     private JButton matchButton;
 
-    private Engine engine;
 
-
-
-    public Home(Engine engine){
+    public Home( ){
         setupWindow();
         JPanel mainPanel = createMainPanel();
         add(mainPanel);
         setVisible(true);
-        this.engine = engine;
     }
 
     private JPanel createMainPanel() {

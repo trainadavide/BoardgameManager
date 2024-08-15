@@ -16,6 +16,10 @@ public class Collection {
         }
     }
 
+    public Boardgame getBg(int i){
+        return collection.get(i);
+    }
+
     public int collectionSize(){
         return collection.size();
     }

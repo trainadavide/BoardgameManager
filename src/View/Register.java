@@ -11,15 +11,12 @@ public class Register extends JFrame {
     private JTextField passwordField;
     private JTextField validatePasswordField;
     private JTextField emailField;
-    private Engine registerEngine;
 
-
-    public Register(Engine registerEngine) {
+    public Register() {
         setupWindow();
         JPanel mainPanel = createMainPanel();
         add(mainPanel);
         setVisible(true);
-        this.registerEngine = registerEngine;
     }
 
     private JPanel createMainPanel() {
@@ -112,7 +109,7 @@ public class Register extends JFrame {
                 return;
             }
 
-            if (registerEngine.register(email, password, username)){
+            if (Engine.getInstance().register(email, password, username)){
                 JOptionPane.showMessageDialog(this, "User registered successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
             } else {
                 JOptionPane.showMessageDialog(this, "User already exists", "Error", JOptionPane.ERROR_MESSAGE);

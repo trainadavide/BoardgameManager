@@ -3,6 +3,8 @@ package View;
 import Controller.Engine;
 import Controller.PageNavigation;
 import BusinessLogic.Service.CollectionService;
+import Model.Boardgame;
+import Model.Collection;
 
 
 import javax.swing.*;
@@ -13,22 +15,33 @@ import java.sql.SQLException;
 public class CollectionView extends JFrame {
     private JButton addGameButton;
     private JButton backButton;
-    private Engine engine;
 
-    public CollectionView(Engine engine) {
+    public CollectionView() {
         setupWindow();
         JPanel mainPanel = createMainPanel();
         add(mainPanel);
         setVisible(true);
-        this.engine = engine;
     }
 
     private JPanel createCollectionPanel() {
         JPanel collectionPanel = new JPanel();
         collectionPanel.setLayout(new BoxLayout(collectionPanel, BoxLayout.Y_AXIS));
 
+        Collection collection = Engine.getInstance().getUser().getCollection();
+
+        for(int i=0; i<collection.collectionSize();i++){
+            collectionPanel.add(createBoardgameCard(collection.getBg(i)));
+        }
 
         return collectionPanel;
+    }
+
+    private JPanel createBoardgameCard(Boardgame bg){
+        JPanel bgCard = new JPanel();
+        JLabel bgName = new JLabel(bg.getName());
+        bgCard.add(bgName);
+
+        return bgCard;
     }
     private JPanel createMainPanel() {
 

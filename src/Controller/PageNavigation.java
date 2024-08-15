@@ -10,21 +10,11 @@ public class PageNavigation {
     private JFrame currentFrame;
     private Dimension frameSize;
     private Point frameLocation;
-    private Engine engine;
-
-    public void setEngine(Engine engine){
-        this.engine = engine;
-    }
-
-    public Engine getEngine(){
-        return engine;
-    }
 
     private PageNavigation(JFrame currentFrame) {
         this.currentFrame = currentFrame;
         this.frameSize = currentFrame.getSize(); // get the size of the current frame
         this.frameLocation = currentFrame.getLocation();
-        this.engine=Engine.getInstance();
     }
 
     public static PageNavigation getIstance(JFrame currentFrame){
@@ -40,7 +30,7 @@ public class PageNavigation {
 
         currentFrame.dispose();
 
-        Home home = new Home(engine);
+        Home home = new Home();
         home.setSize(frameSize);
         home.setLocation(frameLocation);
         currentFrame = home;
@@ -52,7 +42,7 @@ public class PageNavigation {
 
         currentFrame.dispose();
 
-        Login login = new Login(engine);
+        Login login = new Login();
         login.setSize(frameSize);
         login.setLocation(frameLocation);
         currentFrame = login;
@@ -64,7 +54,7 @@ public class PageNavigation {
 
         currentFrame.dispose();
 
-        Register register = new Register(engine);
+        Register register = new Register();
         register.setSize(frameSize);
         register.setLocation(frameLocation);
         currentFrame = register;
@@ -76,7 +66,7 @@ public class PageNavigation {
 
         currentFrame.dispose();
 
-        CollectionView collectionView = new CollectionView(engine);
+        CollectionView collectionView = new CollectionView();
         collectionView.setSize(frameSize);
         collectionView.setLocation(frameLocation);
         currentFrame = collectionView;
@@ -88,7 +78,7 @@ public class PageNavigation {
 
         currentFrame.dispose();
 
-        WishlistView wishlistView = new WishlistView(engine);
+        WishlistView wishlistView = new WishlistView();
         wishlistView.setSize(frameSize);
         wishlistView.setLocation(frameLocation);
         currentFrame = wishlistView;
@@ -100,7 +90,7 @@ public class PageNavigation {
 
         currentFrame.dispose();
 
-        PlayersView playersView = new PlayersView(engine);
+        PlayersView playersView = new PlayersView();
         playersView.setSize(frameSize);
         playersView.setLocation(frameLocation);
         currentFrame = playersView;
@@ -112,7 +102,7 @@ public class PageNavigation {
 
         currentFrame.dispose();
 
-        MatchView matchView = new MatchView(engine);
+        MatchView matchView = new MatchView();
         matchView.setSize(frameSize);
         matchView.setLocation(frameLocation);
         currentFrame = matchView;
@@ -124,7 +114,7 @@ public class PageNavigation {
 
         currentFrame.dispose();
 
-        BoardgameView boardgameView = new BoardgameView(engine);
+        BoardgameView boardgameView = new BoardgameView();
         boardgameView.setSize(frameSize);
         boardgameView.setLocation(frameLocation);
         currentFrame = boardgameView;
@@ -136,7 +126,7 @@ public class PageNavigation {
 
         currentFrame.dispose();
 
-        AddPlayerView addPlayerView = new AddPlayerView(engine);
+        AddPlayerView addPlayerView = new AddPlayerView();
         addPlayerView.setSize(frameSize);
         addPlayerView.setLocation(frameLocation);
         currentFrame = addPlayerView;
@@ -148,7 +138,7 @@ public class PageNavigation {
 
         currentFrame.dispose();
 
-        AddMatchView addMatchView = new AddMatchView(engine);
+        AddMatchView addMatchView = new AddMatchView();
         addMatchView.setSize(frameSize);
         addMatchView.setLocation(frameLocation);
 

@@ -14,7 +14,7 @@ public class Main {
 
         Engine engine = Engine.getInstance();
 
-        Login loginView = new Login(engine);
+        Login loginView = new Login();
         loginView.setVisible(true);
 
     }
