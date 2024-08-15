@@ -18,7 +18,6 @@ public class Boardgame {
         this.competitive = competitive;
         this.avgGameDuration = avgGameDuration;
         this.url=url;
-
     }
 
     public int getMaxPlayers() {
