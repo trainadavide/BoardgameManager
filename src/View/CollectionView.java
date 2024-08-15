@@ -33,6 +33,7 @@ public class CollectionView extends JFrame {
 
         for(int i=0; i<collection.collectionSize();i++){
             collectionPanel.add(createBoardgameCard(collection.getBg(i)));
+            collectionPanel.add(new JPanel());
         }
 
         return collectionPanel;
@@ -45,7 +46,7 @@ public class CollectionView extends JFrame {
         URL url = new URL(bg.getUrl());
         ImageIcon imageIcon = new ImageIcon(url);
         JLabel imageLabel = new JLabel(imageIcon);
-        bgCard.add(imageLabel, BorderLayout.EAST);
+        bgCard.add(imageLabel, BorderLayout.WEST);
     } catch (MalformedURLException e) {
         e.printStackTrace();
         throw new RuntimeException(e);
@@ -57,17 +58,30 @@ public class CollectionView extends JFrame {
     detailsLabel.setHorizontalAlignment(SwingConstants.CENTER);
     bgCard.add(detailsLabel, BorderLayout.CENTER);
 
-    JButton deleteButton = createButton("Delete", null, () -> {
-                Engine.getInstance().removeFromCollection(bg.getId());
-                PageNavigation pageNavigationController = PageNavigation.getIstance(this);
-                pageNavigationController.navigateToCollection();
-    });
-    deleteButton.setPreferredSize(new Dimension(100, 80));
-    bgCard.add(deleteButton, BorderLayout.WEST);
+    bgCard.add(removeButton(bg.getId()), BorderLayout.EAST);
 
     bgCard.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
     return bgCard;
-}
+    }
+
+    private JPanel removeButton(int gameId){
+        JPanel removePanel = new JPanel(new GridLayout(3,3));
+        for (int i = 0; i<4; i++)
+            removePanel.add(new JPanel());
+        JButton deleteButton = createButton("Remove", null, () -> {
+            Engine.getInstance().removeFromCollection(gameId);
+            PageNavigation pageNavigationController = PageNavigation.getIstance(this);
+            pageNavigationController.navigateToCollection();
+        });
+        deleteButton.setPreferredSize(new Dimension(100, 80));
+        deleteButton.setBorder(BorderFactory.createMatteBorder(1,1,4,4,Color.BLACK));
+        deleteButton.setBackground(new Color(239, 47, 47));
+        removePanel.add(deleteButton);
+        for (int i = 0; i<4; i++)
+            removePanel.add(new JPanel());
+        removePanel.setBackground(new Color(163, 226, 232));
+        return removePanel;
+    }
     private JPanel createMainPanel() {
 
         JPanel mainPanel = new JPanel(new BorderLayout());
