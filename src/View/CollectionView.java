@@ -9,6 +9,8 @@ import Model.Collection;
 
 import javax.swing.*;
 import java.awt.*;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -36,13 +38,36 @@ public class CollectionView extends JFrame {
         return collectionPanel;
     }
 
-    private JPanel createBoardgameCard(Boardgame bg){
-        JPanel bgCard = new JPanel();
-        JLabel bgName = new JLabel(bg.getName());
-        bgCard.add(bgName);
-
-        return bgCard;
+   private JPanel createBoardgameCard(Boardgame bg){
+    JPanel bgCard = new JPanel(new BorderLayout());
+    bgCard.setPreferredSize(new Dimension(600, 200));
+    try {
+        URL url = new URL(bg.getUrl());
+        ImageIcon imageIcon = new ImageIcon(url);
+        JLabel imageLabel = new JLabel(imageIcon);
+        bgCard.add(imageLabel, BorderLayout.EAST);
+    } catch (MalformedURLException e) {
+        e.printStackTrace();
+        throw new RuntimeException(e);
     }
+
+    String gameDetails = "<html><div style='text-align: center;'>" + "<span style='font-size:26px;'>" + bg.getName().toUpperCase() + "</span><br>Players: " + bg.getMinPlayers() + " - " + bg.getMaxPlayers() + "<br>Duration: " + bg.getAvgGameDuration() + " min.</div></html>";
+    JLabel detailsLabel = new JLabel(gameDetails);
+    detailsLabel.setFont(new Font("Arial", Font.BOLD, 24));
+    detailsLabel.setHorizontalAlignment(SwingConstants.CENTER);
+    bgCard.add(detailsLabel, BorderLayout.CENTER);
+
+    JButton deleteButton = createButton("Delete", null, () -> {
+                Engine.getInstance().removeFromCollection(bg.getId());
+                PageNavigation pageNavigationController = PageNavigation.getIstance(this);
+                pageNavigationController.navigateToCollection();
+    });
+    deleteButton.setPreferredSize(new Dimension(100, 80));
+    bgCard.add(deleteButton, BorderLayout.WEST);
+
+    bgCard.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+    return bgCard;
+}
     private JPanel createMainPanel() {
 
         JPanel mainPanel = new JPanel(new BorderLayout());
@@ -59,14 +84,17 @@ public class CollectionView extends JFrame {
     }
 
     private JPanel createContentPanel() {
-        JPanel contentPanel = new JPanel();
-        contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
+    JPanel contentPanel = new JPanel();
+    contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
 
-        contentPanel.add(createTitlePanel());
-        contentPanel.add(createCollectionPanel());
+    contentPanel.add(createTitlePanel());
 
-        return contentPanel;
-    }
+    JPanel collectionPanel = createCollectionPanel();
+    JScrollPane scrollPane = new JScrollPane(collectionPanel);
+    contentPanel.add(scrollPane);
+
+    return contentPanel;
+}
 
     private JPanel createTitlePanel() {
 
@@ -83,7 +111,7 @@ public class CollectionView extends JFrame {
 
     private JPanel createAddGamePanel() {
         JPanel buttonPanel = new JPanel(new FlowLayout());
-        addGameButton = new JButton("Logout");
+        addGameButton = new JButton("Add Game");
         addGameButton.addActionListener(e -> {
             PageNavigation pageNavigationController = PageNavigation.getIstance(this);
             pageNavigationController.navigateToBoardgame();
@@ -97,7 +125,7 @@ public class CollectionView extends JFrame {
         backButton = new JButton("Back");
         backButton.addActionListener(e -> {
             PageNavigation pageNavigationController = PageNavigation.getIstance(this);
-            pageNavigationController.navigateToLogin();
+            pageNavigationController.navigateToHome();
         });
         buttonPanel.add(backButton);
         return buttonPanel;
