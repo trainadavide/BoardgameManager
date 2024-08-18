@@ -1,9 +1,12 @@
 package Controller;
 
+import Model.Boardgame;
 import View.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.sql.ResultSet;
+import java.util.ArrayList;
 
 public class PageNavigation {
     static PageNavigation istance;
@@ -108,13 +111,13 @@ public class PageNavigation {
         currentFrame = matchView;
     }
 
-    public void navigateToBoardgame() {
+    public void navigateToBoardgame(ArrayList<Boardgame> showingBoardgame, boolean collection) {
         frameSize = currentFrame.getSize();
         frameLocation = currentFrame.getLocation();
 
         currentFrame.dispose();
 
-        BoardgameView boardgameView = new BoardgameView();
+        BoardgameView boardgameView = new BoardgameView(showingBoardgame, collection);
         boardgameView.setSize(frameSize);
         boardgameView.setLocation(frameLocation);
         currentFrame = boardgameView;

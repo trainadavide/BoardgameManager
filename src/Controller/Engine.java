@@ -300,4 +300,95 @@ public class Engine {
         return matchPlayerService.getWinners(matchId);
     }
 
+    // BOARDGAME SEARCH FUNCTION --------------------------------------------
+
+    public ArrayList<Boardgame> getAllBoardgames(){
+        BoardgameService boardgameService = (BoardgameService) sf.getService(sf.BOARDGAME_SERVICE);
+        ResultSet rs = boardgameService.getAllBoardgame();
+
+        ArrayList<Boardgame> boardgames = new ArrayList<>();
+        try {
+            while (rs.next()) {
+                boardgames.add(boardgameService.createBoardgameFromId(rs.getInt("id")));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+         return boardgames;
+    }
+
+    public ArrayList<Boardgame> getBoardgamesByMinDuration(int minDuration){
+        BoardgameService boardgameService = (BoardgameService) sf.getService(sf.BOARDGAME_SERVICE);
+        ResultSet rs = boardgameService.getBoardgameByMinDuration(minDuration);
+
+        ArrayList<Boardgame> boardgames = new ArrayList<>();
+        try {
+            while (rs.next()) {
+                boardgames.add(boardgameService.createBoardgameFromId(rs.getInt("id")));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return boardgames;
+    }
+
+    public ArrayList<Boardgame> getBoardgameByMaxDuration(int maxDuration){
+        BoardgameService boardgameService = (BoardgameService) sf.getService(sf.BOARDGAME_SERVICE);
+        ResultSet rs = boardgameService.getBoardgameByMaxDuration(maxDuration);
+
+        ArrayList<Boardgame> boardgames = new ArrayList<>();
+        try {
+            while (rs.next()) {
+                boardgames.add(boardgameService.createBoardgameFromId(rs.getInt("id")));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return boardgames;
+    }
+
+    public ArrayList<Boardgame> getBoardgameByPlayers(int players){
+        BoardgameService boardgameService = (BoardgameService) sf.getService(sf.BOARDGAME_SERVICE);
+        ResultSet rs = boardgameService.getBoardgameByPlayers(players);
+
+        ArrayList<Boardgame> boardgames = new ArrayList<>();
+        try {
+            while (rs.next()) {
+                boardgames.add(boardgameService.createBoardgameFromId(rs.getInt("id")));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return boardgames;
+    }
+
+    public ArrayList<Boardgame> getBoardgameByName(String name){
+        BoardgameService boardgameService = (BoardgameService) sf.getService(sf.BOARDGAME_SERVICE);
+        ResultSet rs = boardgameService.getBoardgameByName(name);
+
+        ArrayList<Boardgame> boardgames = new ArrayList<>();
+        try {
+            while (rs.next()) {
+                boardgames.add(boardgameService.createBoardgameFromId(rs.getInt("id")));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return boardgames;
+    }
+    public ArrayList<Boardgame> getCompetitivePlayers(boolean competitive){
+        BoardgameService boardgameService = (BoardgameService) sf.getService(sf.BOARDGAME_SERVICE);
+        ResultSet rs = boardgameService.getBoardgameByCompetitive(competitive);
+
+        ArrayList<Boardgame> boardgames = new ArrayList<>();
+        try {
+            while (rs.next()) {
+                boardgames.add(boardgameService.createBoardgameFromId(rs.getInt("id")));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return boardgames;
+    }
+
 }

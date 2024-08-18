@@ -31,4 +31,13 @@ public class Collection {
     public void deleteCollection(){
         collection = new ArrayList<Boardgame>();
     }
+
+    public boolean isInCollection(int gameid){
+        boolean inCollection = false;
+        for(int i=0; i<collection.size();i++){
+            if(collection.get(i).getId()==gameid)
+                inCollection = true;
+        }
+        return inCollection;
+    }
 }

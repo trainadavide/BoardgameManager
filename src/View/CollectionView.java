@@ -128,7 +128,7 @@ public class CollectionView extends JFrame {
         addGameButton = new JButton("Add Game");
         addGameButton.addActionListener(e -> {
             PageNavigation pageNavigationController = PageNavigation.getIstance(this);
-            pageNavigationController.navigateToBoardgame();
+            pageNavigationController.navigateToBoardgame(Engine.getInstance().getAllBoardgames(),true);
         });
         buttonPanel.add(addGameButton);
         return buttonPanel;

@@ -37,4 +37,44 @@ public class BoardgameService {
             throw new RuntimeException(e);
         }
     }
+
+    public ResultSet getBoardgameByName(String name){
+        try {
+            return boardgameDAO.getBoardGameByName(name);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public ResultSet getBoardgameByMinDuration(int minDuration){
+        try {
+            return boardgameDAO.getBoardGameByMinDuration(minDuration);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public ResultSet getBoardgameByMaxDuration(int maxDuration){
+        try {
+            return boardgameDAO.getBoardGameByMaxDuration(maxDuration);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public ResultSet getBoardgameByPlayers(int players){
+        try {
+            return boardgameDAO.getBoardGameByPlayers(players);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public ResultSet getBoardgameByCompetitive(boolean competitive){
+        try {
+            return boardgameDAO.getCompetitiveBoardGame(competitive);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
