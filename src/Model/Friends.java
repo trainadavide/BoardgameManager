@@ -16,6 +16,14 @@ public class Friends {
         }
     }
 
+    public Player getPlayer(int i){
+        return friends.get(i);
+    }
+
+    public int friendListSize(){
+        return friends.size();
+    }
+
     public void addPlayer(Player player){
         friends.add(player);
     }

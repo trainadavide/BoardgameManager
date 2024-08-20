@@ -3,6 +3,7 @@ package View;
 import Controller.Engine;
 import Controller.PageNavigation;
 import Model.Collection;
+import Model.Friends;
 import Model.Player;
 import javax.swing.*;
 import java.awt.*;
@@ -24,6 +25,10 @@ public class PlayersView extends JFrame {
         playersPanel.setLayout(new BoxLayout(playersPanel, BoxLayout.Y_AXIS));
 
         //TODO devo prendere la lista di player dell'utente e visualizzarli con un for
+        Friends friends = Engine.getInstance().getUser().getFriends();
+        for(int i=0; i<friends.friendListSize(); i++){
+            playersPanel.add(createPlayerCard(friends.getPlayer(i)));
+        }
 
         return playersPanel;
     }
