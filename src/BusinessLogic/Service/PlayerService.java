@@ -26,7 +26,7 @@ public class PlayerService {
     public void addPlayer(String nickname) {
         try {
             playerDAO.addPlayer(nickname, user.getId());
-            int newPlayerId = playerDAO.mostRecentlyAdded(user.getId());
+            int newPlayerId = playerDAO.mostRecentlyAdded();
             Player p = new Player(newPlayerId, nickname);
             user.getFriends().addPlayer(p);
         }catch (SQLException e) {

@@ -69,11 +69,13 @@ public class PlayerDAO {
         return alreadyUsed;
     }
 
-    public int mostRecentlyAdded(int userId)throws SQLException{
-        String query = "SELECT max(playerid) FROM players WHERE userid = ?";
+    public int mostRecentlyAdded()throws SQLException{
+        String query = "SELECT max(playerid) as playerid FROM players";
         PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
-        ps.setInt(1,userId);
         ResultSet rs = ps.executeQuery();
-        return rs.getInt("playerid");
+        if(rs.next())
+            return rs.getInt("playerid");
+        else
+            return 1;
     }
 }
