@@ -6,12 +6,12 @@ import java.sql.SQLException;
 
 public class PlayerDAO {
 
-    public void addPlayer(String nickname, int userId)throws SQLException{
-        if(!nameAlreadyUsed(nickname, userId)){
+    public void addPlayer(String nickname, int userid)throws SQLException{
+        if(!nameAlreadyUsed(nickname, userid)){
             String query = "INSERT INTO players (nickname, userid) VALUES (?, ?)";
             PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
             ps.setString(1,nickname);
-            ps.setInt(2,userId);
+            ps.setInt(2,userid);
             ps.executeUpdate();
         }
     }

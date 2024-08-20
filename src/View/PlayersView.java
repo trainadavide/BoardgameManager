@@ -24,7 +24,6 @@ public class PlayersView extends JFrame {
         JPanel playersPanel = new JPanel();
         playersPanel.setLayout(new BoxLayout(playersPanel, BoxLayout.Y_AXIS));
 
-        //TODO devo prendere la lista di player dell'utente e visualizzarli con un for
         Friends friends = Engine.getInstance().getUser().getFriends();
         for(int i=0; i<friends.friendListSize(); i++){
             playersPanel.add(createPlayerCard(friends.getPlayer(i)));

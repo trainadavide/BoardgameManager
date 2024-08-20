@@ -391,4 +391,10 @@ public class Engine {
         return boardgames;
     }
 
+    public void addPlayer(String nickname){
+        PlayerService playerService = (PlayerService) sf.getService(sf.PLAYER_SERVICE);
+        playerService.addPlayer(nickname);
+    }
 }
+
+
