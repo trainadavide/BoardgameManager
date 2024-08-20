@@ -31,10 +31,10 @@ public class PlayerDAO {
     }
 
     public ResultSet getPlayerByNickname(String nickname, int userId) throws SQLException{
-        String query = "SELECT * FROM players p WHERE LOWER(p.nickname) LIKE LOWER(?'%')"+
+        String query = "SELECT * FROM players p WHERE LOWER(p.nickname) LIKE LOWER(?)"+
                 " AND userid = ?";
         PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
-        ps.setString(1,nickname);
+        ps.setString(1,nickname + '%');
         ps.setInt(2,userId);
         return ps.executeQuery();
     }

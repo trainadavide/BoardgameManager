@@ -14,7 +14,6 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 
 public class BoardgameView extends JFrame {
-    //TODO
     private JButton backButton;
     private ArrayList<Boardgame> showingBoardgames;
 
@@ -125,6 +124,8 @@ public class BoardgameView extends JFrame {
         contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
 
         contentPanel.add(createTitlePanel());
+        contentPanel.add(createSearchPanel());
+
 
         JPanel collectionPanel = createBoardgamePanel();
         JScrollPane scrollPane = new JScrollPane(collectionPanel);
@@ -142,6 +143,25 @@ public class BoardgameView extends JFrame {
         labelPanel.add(label);
 
         return labelPanel;
+    }
+
+    private JPanel createSearchPanel() {
+        JPanel searchPanel = new JPanel(new FlowLayout());
+
+        JTextField searchField = new JTextField(20);
+        JButton searchButton = new JButton("Search");
+
+        searchButton.addActionListener(e -> {
+            String search = searchField.getText();
+            ArrayList<Boardgame> searchResult = Engine.getInstance().getBoardgameByName(search);
+            PageNavigation pageNavigationController = PageNavigation.getIstance(this);
+            pageNavigationController.navigateToBoardgame(searchResult, collection);
+        });
+
+        searchPanel.add(searchField);
+        searchPanel.add(searchButton);
+
+        return searchPanel;
     }
 
     private JPanel createBackButtonPanel() {

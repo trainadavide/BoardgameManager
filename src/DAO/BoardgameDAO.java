@@ -18,9 +18,9 @@ public class BoardgameDAO {
         return ps.executeQuery();
     }
     public ResultSet getBoardGameByName(String name) throws SQLException {
-        String query = "SELECT * FROM boardgame b WHERE LOWER(b.name) LIKE LOWER(?'%')";
+        String query = "SELECT * FROM boardgame b WHERE LOWER(b.name) LIKE LOWER(?)";
         PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
-        ps.setString(1, name);
+        ps.setString(1, name + "%");
         return ps.executeQuery();
     }
     public ResultSet getBoardGameByMaxDuration(int maxDuration)throws SQLException{

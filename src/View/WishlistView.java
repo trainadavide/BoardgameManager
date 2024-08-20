@@ -12,8 +12,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class WishlistView extends JFrame {
-    //TODO
-
     private JButton addGameButton;
     private JButton backButton;
 
