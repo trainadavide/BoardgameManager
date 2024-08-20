@@ -395,6 +395,10 @@ public class Engine {
         PlayerService playerService = (PlayerService) sf.getService(sf.PLAYER_SERVICE);
         playerService.addPlayer(nickname);
     }
+    public void deletePlayer(int playerId){
+        PlayerService playerService = (PlayerService) sf.getService(sf.PLAYER_SERVICE);
+        playerService.deletePlayer(playerId);
+    }
 }
 
 

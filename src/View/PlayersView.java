@@ -32,29 +32,52 @@ public class PlayersView extends JFrame {
         return playersPanel;
     }
 
-    private JPanel createPlayerCard(Player player) {
-        JPanel pCard = new JPanel(new BorderLayout());
-        pCard.setPreferredSize(new Dimension(300, 100));
+   private JPanel createPlayerCard(Player player) {
+    JPanel pCard = new JPanel(new BorderLayout());
+    pCard.setPreferredSize(new Dimension(200, 80)); // Riduzione delle dimensioni
+    pCard.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2)); // Aggiunta del bordo
 
-        String playerName = "<html><div style='text-align: center;'>" +
-                "<span style='font-size:26px;'>" +
-                player.getNickname().toUpperCase() + "</div></html>";
+    String playerName = "<html><div style='text-align: center;'>" +
+            "<span style='font-size:20px;'>" + // Riduzione della dimensione del font
+            player.getNickname().toUpperCase() + "</div></html>";
 
-        JLabel playerLabel = new JLabel(playerName, SwingConstants.CENTER);
-        pCard.add(playerLabel, BorderLayout.CENTER);
+    JLabel playerLabel = new JLabel(playerName, SwingConstants.CENTER);
 
-        return pCard;
+    pCard.add(playerLabel, BorderLayout.CENTER);
+
+    pCard.add(removeButton(player.getId()), BorderLayout.EAST);
+
+    return pCard;
+}
+
+    private JPanel removeButton(int playerId){
+        JPanel removePanel = new JPanel(new GridLayout(3,3));
+        for (int i = 0; i<4; i++)
+            removePanel.add(new JPanel());
+        JButton deleteButton = createButton("Remove", null, () -> {
+            Engine.getInstance().deletePlayer(playerId);
+            PageNavigation pageNavigationController = PageNavigation.getIstance(this);
+            pageNavigationController.navigateToPlayers();
+        });
+        deleteButton.setPreferredSize(new Dimension(100, 80));
+        deleteButton.setBorder(BorderFactory.createMatteBorder(1,1,4,4,Color.BLACK));
+        deleteButton.setBackground(new Color(239, 47, 47));
+        removePanel.add(deleteButton);
+        for (int i = 0; i<4; i++)
+            removePanel.add(new JPanel());
+        removePanel.setBackground(new Color(163, 226, 232));
+        return removePanel;
     }
 
     private JPanel createMainPanel() {
         JPanel mainPanel = new JPanel(new BorderLayout());
         JPanel backButtonPanel = createBackButtonPanel();
         JPanel contentPanel = createContentPanel();
-        JPanel addPlayerButtonPanel = createAddPlayerButtonPanel();  // Pannello per il pulsante "Add Player"
+        JPanel addPlayerButtonPanel = createAddPlayerButtonPanel();
 
         mainPanel.add(backButtonPanel, BorderLayout.WEST);
         mainPanel.add(contentPanel, BorderLayout.CENTER);
-        mainPanel.add(addPlayerButtonPanel, BorderLayout.EAST);  // Aggiunta del pulsante "Add Player"
+        mainPanel.add(addPlayerButtonPanel, BorderLayout.EAST);
 
         return mainPanel;
     }
@@ -102,6 +125,17 @@ public class PlayersView extends JFrame {
         });
         buttonPanel.add(addPlayerButton);
         return buttonPanel;
+    }
+    private JButton createButton(String title, ButtonGroup buttonGroup, Runnable action) {
+        JButton button = new JButton(title);
+        button.setPreferredSize(new Dimension(250, 80));
+        if (buttonGroup != null) {
+            buttonGroup.add(button);
+        }
+        if (action != null) {
+            button.addActionListener(e -> action.run());
+        }
+        return button;
     }
 
     private void setupWindow() {
