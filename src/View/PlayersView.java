@@ -8,6 +8,8 @@ import Model.Player;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class PlayersView extends JFrame {
     private JButton backButton;
@@ -34,10 +36,19 @@ public class PlayersView extends JFrame {
 
    private JPanel createPlayerCard(Player player) {
     JPanel pCard = new JPanel(new BorderLayout());
-    pCard.setPreferredSize(new Dimension(200, 80)); // Riduzione delle dimensioni
+    pCard.setPreferredSize(new Dimension(160, 80)); // Riduzione delle dimensioni
     pCard.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2)); // Aggiunta del bordo
 
-    String playerName = "<html><div style='text-align: center;'>" +
+       try {
+           URL url = new URL("https://static.vecteezy.com/ti/vettori-gratis/t1/2318271-icona-profilo-utente-vettoriale.jpg"); // Sostituisci con l'URL dell'immagine
+           ImageIcon profileIcon = new ImageIcon(new ImageIcon(url).getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT));
+           JLabel profileLabel = new JLabel(profileIcon);
+           pCard.add(profileLabel, BorderLayout.WEST);
+       } catch (MalformedURLException e) {
+           e.printStackTrace();
+       }
+
+       String playerName = "<html><div style='text-align: center;'>" +
             "<span style='font-size:20px;'>" + // Riduzione della dimensione del font
             player.getNickname().toUpperCase() + "</div></html>";
 
