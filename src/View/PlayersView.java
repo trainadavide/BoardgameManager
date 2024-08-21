@@ -36,8 +36,8 @@ public class PlayersView extends JFrame {
 
    private JPanel createPlayerCard(Player player) {
     JPanel pCard = new JPanel(new BorderLayout());
-    pCard.setPreferredSize(new Dimension(160, 80)); // Riduzione delle dimensioni
-    pCard.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2)); // Aggiunta del bordo
+    pCard.setPreferredSize(new Dimension(160, 80));
+    pCard.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
 
        try {
            URL url = new URL("https://static.vecteezy.com/ti/vettori-gratis/t1/2318271-icona-profilo-utente-vettoriale.jpg"); // Sostituisci con l'URL dell'immagine
