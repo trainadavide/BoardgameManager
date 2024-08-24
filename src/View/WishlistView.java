@@ -159,5 +159,7 @@ public class WishlistView extends JFrame {
         setSize(1000, 600);
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        ImageIcon icon = new ImageIcon("Assets/BoardgameManager.png");
+        setIconImage(icon.getImage());
     }
 }

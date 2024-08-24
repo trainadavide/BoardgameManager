@@ -146,4 +146,15 @@ public class PageNavigation {
         addMatchView.setLocation(frameLocation);
 
     }
+    public void navigateToMatchDetailsView(int matchId){
+        frameSize = currentFrame.getSize();
+        frameLocation = currentFrame.getLocation();
+
+        currentFrame.dispose();
+
+        MatchDetailsView matchDetailsView = new MatchDetailsView(matchId);
+        matchDetailsView.setSize(frameSize);
+        matchDetailsView.setLocation(frameLocation);
+        currentFrame = matchDetailsView;
+    }
 }

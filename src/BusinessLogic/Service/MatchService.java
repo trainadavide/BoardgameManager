@@ -84,6 +84,7 @@ public class MatchService {
                     p = new Player(playerId, playerService.getNicknameById(playerId));
                     m.addPlayer(p,matchDetails.getInt("score"));
                 }
+
                 matches.add(m);
             }
             user.getMatchLog().loadMatches(matches);

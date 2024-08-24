@@ -4,6 +4,7 @@ import Controller.Engine;
 import Controller.PageNavigation;
 import Model.Match;
 import Model.MatchLog;
+import Model.Player;
 
 import javax.swing.*;
 import java.awt.*;
@@ -35,31 +36,49 @@ public class MatchView extends JFrame {
     }
 
     private JPanel createMatchCard(Match match) {
-        JPanel mCard = new JPanel(new BorderLayout());
-        mCard.setPreferredSize(new Dimension(160, 80));
-        mCard.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+    JPanel mCard = new JPanel(new BorderLayout());
+    mCard.setPreferredSize(new Dimension(160, 80));
+    mCard.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
 
+    try {
+        URL url = new URL(match.getGame().getUrl());
+        ImageIcon gameIcon = new ImageIcon(new ImageIcon(url).getImage().getScaledInstance(225, 225, Image.SCALE_DEFAULT));
+        JLabel gameLabel = new JLabel(gameIcon);
+        mCard.add(gameLabel, BorderLayout.WEST);
+    } catch (MalformedURLException e) {
+        e.printStackTrace();
+        throw new RuntimeException(e);
 
-        try {
-            URL url = new URL(match.getGame().getUrl());
-            ImageIcon gameIcon = new ImageIcon(new ImageIcon(url).getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT));
-            JLabel gameLabel = new JLabel(gameIcon);
-            mCard.add(gameLabel, BorderLayout.WEST);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-
-        String matchInfo = "<html><div style='text-align: center;'>" +
-                "<span style='font-size:12px;'>" +
-                "Partita del: " + match.getDate() + "<br>" +
-                "Gioco: " + match.getGame().getName() + "<br>";
-
-        JLabel matchLabel = new JLabel(matchInfo, SwingConstants.CENTER);
-        mCard.add(matchLabel, BorderLayout.CENTER);
-
-
-        return mCard;
     }
+
+    String matchInfo = "<html><div style='text-align: center;'>" +
+            "<span style='font-size:14px;'>" +
+            "Partita a " + match.getGame().getName() +
+            " del " + match.getDate();
+    ArrayList<Player> winners = Engine.getInstance().getMatchWinners(match.getId());
+    if(winners.size()>1){
+        matchInfo += "<br>WINNER: ";
+    } else {
+        matchInfo += "<br>WINNERS: ";
+    }
+    for(int i = 0; i<winners.size(); i++){
+        matchInfo += winners.get(i).getNickname();
+        if(i<winners.size()-1){
+            matchInfo += ", ";
+        }
+    }
+
+    JLabel matchLabel = new JLabel(matchInfo, SwingConstants.CENTER);
+    mCard.add(matchLabel, BorderLayout.CENTER);
+
+        JButton detailsButton = new JButton("Details");
+        detailsButton.addActionListener(e -> {
+            PageNavigation pageNavigationController = PageNavigation.getIstance(this);
+            pageNavigationController.navigateToMatchDetailsView(match.getId());
+        });
+        mCard.add(detailsButton, BorderLayout.SOUTH);
+
+        return mCard;}
 
     private JPanel createMainPanel() {
         JPanel mainPanel = new JPanel(new BorderLayout());
@@ -135,5 +154,7 @@ public class MatchView extends JFrame {
         setSize(1000, 600);
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        ImageIcon icon = new ImageIcon("Assets/BoardgameManager.png");
+        setIconImage(icon.getImage());
     }
 }
