@@ -63,7 +63,7 @@ public class MatchService {
         }
     }
 
-    public ResultSet getMatches(){
+    public ArrayList<Match> getMatches(){
         try {
             ResultSet rs = matchDAO.getMatches(user.getId());
             ArrayList<Match> matches = new ArrayList<>();
@@ -85,7 +85,7 @@ public class MatchService {
             }
             user.getMatchLog().loadMatches(matches);
 
-            return rs;
+            return matches;
         } catch (SQLException e) {
             System.err.println("Errore nella lettura dei match: "+e.getMessage());
         }

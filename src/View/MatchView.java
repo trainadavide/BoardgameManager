@@ -39,7 +39,7 @@ public class MatchView extends JFrame {
 
 
         try {
-            URL url = new URL(match.getGame().getImageUrl());
+            URL url = new URL(match.getGame().getUrl());
             ImageIcon gameIcon = new ImageIcon(new ImageIcon(url).getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT));
             JLabel gameLabel = new JLabel(gameIcon);
             mCard.add(gameLabel, BorderLayout.WEST);
@@ -50,7 +50,7 @@ public class MatchView extends JFrame {
         String matchInfo = "<html><div style='text-align: center;'>" +
                 "<span style='font-size:12px;'>" +
                 "Partita del: " + match.getDate() + "<br>" +
-                "Gioco: " + match.getGame().getTitle() + "<br>" +
+                "Gioco: " + match.getGame().getName() + "<br>" +
                 "Winner: " + match.getWinner().getNickname() + "</div></html>";
 
         JLabel matchLabel = new JLabel(matchInfo, SwingConstants.CENTER);

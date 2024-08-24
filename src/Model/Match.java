@@ -1,15 +1,15 @@
 package Model;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.Vector;
+import java.util.*;
 
 public class Match {
     private final int id;
     private final Boardgame boardgame;
     private Player[] players;
     private int[] points;
+    private Date date;
+    private int duration;
+    private Player winner;
 
     public Match(int id, Boardgame boardgame) {
         this.id = id;
@@ -61,4 +61,27 @@ public class Match {
         return id;
     }
 
+    public Boardgame getGame() {
+        return boardgame;
+    }
+
+    public Player[] getPlayers() {
+        return players;
+    }
+
+    public int[] getPoints() {
+        return points;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public Player getWinner() {
+        return winner;
+    }
 }
