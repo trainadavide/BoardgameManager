@@ -63,21 +63,24 @@ public class MatchService {
         }
     }
 
-    public ArrayList<Match> getMatches(){
+    public ResultSet getMatches(){
         try {
             ResultSet rs = matchDAO.getMatches(user.getId());
             ArrayList<Match> matches = new ArrayList<>();
             Match m;
             Boardgame bg;
             ResultSet matchDetails;
+            int matchId,playerId;
             while (rs.next()){
                 bg = boardgameService.createBoardgameFromId(rs.getInt("gameid"));
-                m = new Match(rs.getInt("matchid"), bg);
-                matchDetails = matchPlayerService.getMatchDetailsById(rs.getInt("matchid"));
+                matchId = rs.getInt("matchid");
+                m = new Match(matchId, bg);
+                m.setDate(rs.getDate("date"));
+                matchDetails = matchPlayerService.getMatchDetailsById(matchId);
                 Player p;
-                int playerId;
                 while (matchDetails.next()){
                     playerId = matchDetails.getInt("playerid");
+                    System.out.println(playerService.getNicknameById(playerId));
                     p = new Player(playerId, playerService.getNicknameById(playerId));
                     m.addPlayer(p,matchDetails.getInt("score"));
                 }
@@ -85,7 +88,7 @@ public class MatchService {
             }
             user.getMatchLog().loadMatches(matches);
 
-            return matches;
+            return rs;
         } catch (SQLException e) {
             System.err.println("Errore nella lettura dei match: "+e.getMessage());
         }

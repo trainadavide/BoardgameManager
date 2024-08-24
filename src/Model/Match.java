@@ -22,8 +22,10 @@ public class Match {
         boolean alreadyIn = false;
 
         for (int i=0;i< boardgame.getMaxPlayers();i++){
-            if(players[i].getId()==p.getId())
-                alreadyIn = true;
+            if(players[i]!=null) {
+                if (players[i].getId() == p.getId())
+                    alreadyIn = true;
+            }
         }
 
         if(!alreadyIn) {
@@ -83,5 +85,9 @@ public class Match {
 
     public Player getWinner() {
         return winner;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 }

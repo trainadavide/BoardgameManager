@@ -87,9 +87,12 @@ public class PlayerService {
         }
     }
 
-    public String getNicknameById(int playerId) throws SQLException {
-        String query = "SELECT nickname FROM players WHERE playerId ="+playerId;
-        ResultSet rs = ManagerDAO.result(query);
-        return rs.getString("nickname");
+    public String getNicknameById(int playerId) {
+        try {
+            return playerDAO.getNicknameById(playerId);
+        } catch (SQLException e) {
+            System.err.println("Error getting nickname by id: " + e.getMessage());
+        }
+        return "ABBARABBA";
     }
 }

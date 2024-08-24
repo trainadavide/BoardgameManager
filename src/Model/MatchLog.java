@@ -3,7 +3,7 @@ package Model;
 import java.util.ArrayList;
 
 public class MatchLog {
-    private ArrayList<Match> matches;
+    private ArrayList<Match> matches = new ArrayList<>();
 
     public void loadMatches(ArrayList<Match> matches){
         this.matches = matches;
@@ -14,6 +14,14 @@ public class MatchLog {
             if (matches.get(i).getId()==matchId)
                 matches.remove(i);
         }
+    }
+
+    public Match getMatch(int i){
+        return matches.get(i);
+    }
+
+    public int matchListSize(){
+        return matches.size();
     }
 
     public void addMatch(Match match){

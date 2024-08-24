@@ -78,4 +78,13 @@ public class PlayerDAO {
         else
             return 1;
     }
+
+    public String getNicknameById(int playerId) throws SQLException {
+        String query = "SELECT nickname FROM players WHERE playerid = ?";
+        PreparedStatement ps = ManagerDAO.getConnection().prepareStatement(query);
+        ps.setInt(1,playerId);
+        ResultSet rs = ps.executeQuery();
+        rs.next();
+        return rs.getString("nickname");
+    }
 }

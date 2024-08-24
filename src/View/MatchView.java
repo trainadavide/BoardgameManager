@@ -3,6 +3,8 @@ package View;
 import Controller.Engine;
 import Controller.PageNavigation;
 import Model.Match;
+import Model.MatchLog;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -24,9 +26,9 @@ public class MatchView extends JFrame {
         JPanel matchesPanel = new JPanel();
         matchesPanel.setLayout(new BoxLayout(matchesPanel, BoxLayout.Y_AXIS));
 
-        ArrayList<Match> matches = Engine.getInstance().getMatches();
-        for(Match match : matches){
-            matchesPanel.add(createMatchCard(match));
+        MatchLog matches = Engine.getInstance().getUser().getMatchLog();
+        for(int i=0; i<matches.matchListSize(); i++){
+            matchesPanel.add(createMatchCard(matches.getMatch(i)));
         }
 
         return matchesPanel;
@@ -50,8 +52,7 @@ public class MatchView extends JFrame {
         String matchInfo = "<html><div style='text-align: center;'>" +
                 "<span style='font-size:12px;'>" +
                 "Partita del: " + match.getDate() + "<br>" +
-                "Gioco: " + match.getGame().getName() + "<br>" +
-                "Winner: " + match.getWinner().getNickname() + "</div></html>";
+                "Gioco: " + match.getGame().getName() + "<br>";
 
         JLabel matchLabel = new JLabel(matchInfo, SwingConstants.CENTER);
         mCard.add(matchLabel, BorderLayout.CENTER);

@@ -27,8 +27,8 @@ public class ServiceManager{
         boardgameService = new BoardgameService(boardgameDAO);
         collectionService = new CollectionService(collectionDAO, boardgameService);
         playerService = new PlayerService(playerDAO);
-        matchService = new MatchService(matchDAO, matchPlayerService, boardgameService, playerService);
         matchPlayerService = new MatchPlayerService(matchPlayerDAO, playerService);
+        matchService = new MatchService(matchDAO, matchPlayerService, boardgameService, playerService);
         wishlistService = new WishlistService(wishlistDAO, boardgameService);
         userService = new UserService(userDAO,matchService,playerService,collectionService,wishlistService);
     }

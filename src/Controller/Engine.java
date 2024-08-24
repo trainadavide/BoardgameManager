@@ -400,11 +400,6 @@ public class Engine {
         playerService.deletePlayer(playerId);
     }
 
-    public ArrayList<Match> getMatches(){
-        MatchService matchService = (MatchService) sf.getService(sf.MATCH_SERVICE);
-        ArrayList<Match> matches =  matchService.getMatches();
-        return matches;
-    }
 
 }
 
