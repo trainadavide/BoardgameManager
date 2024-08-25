@@ -101,6 +101,7 @@ private JPanel createDurationPanel(String duration) {
 private JPanel createScoresPanel(ArrayList<Player> players, ArrayList<Integer> points) {
     JPanel scoresPanel = new JPanel();
     scoresPanel.setLayout(new BoxLayout(scoresPanel, BoxLayout.Y_AXIS));
+    //TODO
     for(int i = 0; i<players.size(); i++){
         JLabel scoreLabel = new JLabel(players.get(i).getNickname() + ": " + points.get(i));
         scoreLabel.setFont(new Font("Arial", Font.PLAIN, 24));
