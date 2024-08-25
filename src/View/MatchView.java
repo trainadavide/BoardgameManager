@@ -56,7 +56,7 @@ public class MatchView extends JFrame {
             "Partita a " + match.getGame().getName() +
             " del " + match.getDate();
     ArrayList<Player> winners = Engine.getInstance().getMatchWinners(match.getId());
-    if(winners.size()>1){
+    if(winners.size()==1){
         matchInfo += "<br>WINNER: ";
     } else {
         matchInfo += "<br>WINNERS: ";

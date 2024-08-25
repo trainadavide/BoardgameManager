@@ -9,7 +9,7 @@ public class Match {
     private int[] points;
     private Date date;
     private int duration;
-    private Player winner;
+    private ArrayList<Player> winners;
 
     public Match(int id, Boardgame boardgame) {
         this.id = id;
@@ -83,8 +83,8 @@ public class Match {
         return duration;
     }
 
-    public Player getWinner() {
-        return winner;
+    public ArrayList<Player> getWinner() {
+        return winners;
     }
 
     public void setDate(Date date) {
