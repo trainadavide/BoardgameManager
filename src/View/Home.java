@@ -65,7 +65,7 @@ private JPanel createMenuPanel() {
     PageNavigation pageNavigationController = PageNavigation.getIstance(this);
 
     collectionButton = createButton("Collection", buttonGroup, () -> {
-        pageNavigationController.navigateToCollection();
+        pageNavigationController.navigateToCollection(false);
     });
 
     wishlistButton = createButton("Wishlist", buttonGroup, () -> {

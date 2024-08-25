@@ -87,7 +87,7 @@ public class BoardgameView extends JFrame {
             addButton = createButton("Add to Collection", null, () -> {
                 Engine.getInstance().addToCollection(gameId);
                 PageNavigation pageNavigationController = PageNavigation.getIstance(this);
-                pageNavigationController.navigateToCollection();
+                pageNavigationController.navigateToCollection(false);
             });
         }
         else {
@@ -170,7 +170,7 @@ public class BoardgameView extends JFrame {
         backButton.addActionListener(e -> {
             PageNavigation pageNavigationController = PageNavigation.getIstance(this);
             if (collection)
-                pageNavigationController.navigateToCollection();
+                pageNavigationController.navigateToCollection(false);
             else
                 pageNavigationController.navigateToWishlist();
         });

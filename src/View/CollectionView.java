@@ -18,7 +18,10 @@ public class CollectionView extends JFrame {
     private JButton addGameButton;
     private JButton backButton;
 
-    public CollectionView() {
+    private boolean addMatch;
+
+    public CollectionView(boolean addMatch) {
+        this.addMatch = addMatch;
         setupWindow();
         JPanel mainPanel = createMainPanel();
         add(mainPanel);
@@ -65,33 +68,45 @@ public class CollectionView extends JFrame {
     }
 
     private JPanel removeButton(int gameId){
-        JPanel removePanel = new JPanel(new GridLayout(3,3));
-        for (int i = 0; i<4; i++)
-            removePanel.add(new JPanel());
-        JButton deleteButton = createButton("Remove", null, () -> {
+    JPanel removePanel = new JPanel(new GridLayout(3,3));
+    for (int i = 0; i<4; i++)
+        removePanel.add(new JPanel());
+    JButton button;
+    if (addMatch) {
+        button = createButton("Select", null, () -> {
+            //TODO
+        });
+        button.setBackground(new Color(133, 239, 47));
+
+    } else {
+        button = createButton("Remove", null, () -> {
             Engine.getInstance().removeFromCollection(gameId);
             PageNavigation pageNavigationController = PageNavigation.getIstance(this);
-            pageNavigationController.navigateToCollection();
+            pageNavigationController.navigateToCollection(false);
+
         });
-        deleteButton.setPreferredSize(new Dimension(100, 80));
-        deleteButton.setBorder(BorderFactory.createMatteBorder(1,1,4,4,Color.BLACK));
-        deleteButton.setBackground(new Color(239, 47, 47));
-        removePanel.add(deleteButton);
-        for (int i = 0; i<4; i++)
-            removePanel.add(new JPanel());
-        removePanel.setBackground(new Color(163, 226, 232));
-        return removePanel;
+        button.setBackground(new Color(239, 47, 47));
     }
+    button.setPreferredSize(new Dimension(100, 80));
+    button.setBorder(BorderFactory.createMatteBorder(1,1,4,4,Color.BLACK));
+    removePanel.add(button);
+    for (int i = 0; i<4; i++)
+        removePanel.add(new JPanel());
+    removePanel.setBackground(new Color(163, 226, 232));
+    return removePanel;
+}
     private JPanel createMainPanel() {
 
         JPanel mainPanel = new JPanel(new BorderLayout());
         JPanel backButtonPanel = createBackButtonPanel();
         JPanel contentPanel = createContentPanel();
-        JPanel addGamePanel = createAddGamePanel();
-
         mainPanel.add(backButtonPanel, BorderLayout.WEST);
         mainPanel.add(contentPanel, BorderLayout.CENTER);
-        mainPanel.add(addGamePanel, BorderLayout.EAST);
+
+      if(!addMatch){
+          JPanel addGamePanel = createAddGamePanel();
+          mainPanel.add(addGamePanel, BorderLayout.EAST);
+      }
 
 
         return mainPanel;
@@ -111,8 +126,12 @@ public class CollectionView extends JFrame {
 }
 
     private JPanel createTitlePanel() {
-
-        JLabel label = new JLabel("COLLECTION", SwingConstants.CENTER);
+        JLabel label;
+        if (addMatch) {
+            label = new JLabel("SELECT GAME", SwingConstants.CENTER);
+        }
+        else
+            label = new JLabel("COLLECTION", SwingConstants.CENTER);
         label.setFont(new Font("Arial", Font.BOLD, 36));
 
         JPanel labelPanel = new JPanel(new FlowLayout());
@@ -139,7 +158,10 @@ public class CollectionView extends JFrame {
         backButton = new JButton("Back");
         backButton.addActionListener(e -> {
             PageNavigation pageNavigationController = PageNavigation.getIstance(this);
-            pageNavigationController.navigateToHome();
+            if(addMatch)
+                pageNavigationController.navigateToMatch();
+            else
+                pageNavigationController.navigateToHome();
         });
         buttonPanel.add(backButton);
         return buttonPanel;

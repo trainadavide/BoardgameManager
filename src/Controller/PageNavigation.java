@@ -63,13 +63,13 @@ public class PageNavigation {
         currentFrame = register;
     }
 
-    public void navigateToCollection(){
+    public void navigateToCollection(boolean addMatch){
         frameSize = currentFrame.getSize();
         frameLocation = currentFrame.getLocation();
 
         currentFrame.dispose();
 
-        CollectionView collectionView = new CollectionView();
+        CollectionView collectionView = new CollectionView(addMatch);
         collectionView.setSize(frameSize);
         collectionView.setLocation(frameLocation);
         currentFrame = collectionView;
