@@ -41,15 +41,20 @@ public class MatchDetailsView extends JFrame {
 
 
 
-    private JPanel createDetailPanel(Match match) {
-        JPanel detailPanel = new JPanel();
-        detailPanel.setLayout(new BoxLayout(detailPanel, BoxLayout.Y_AXIS));
+  private JPanel createDetailPanel(Match match) {
+    JPanel detailPanel = new JPanel();
+    detailPanel.setLayout(new BoxLayout(detailPanel, BoxLayout.Y_AXIS));
 
-        detailPanel.add(createGameTitlePanel(match.getGame().getName()));
-        detailPanel.add(createDatePanel(match.getDate().toString()));
-        detailPanel.add(createDurationPanel(String.valueOf(match.getDuration())));
-        //detailPanel.add(createScoresPanel(match.getPlayers(),match.getPoints());
-        detailPanel.add(createWinnerPanel(Engine.getInstance().getMatchWinners(match.getId())));
+    detailPanel.add(createGameTitlePanel(match.getGame().getName()));
+    detailPanel.add(createDatePanel(match.getDate().toString()));
+    detailPanel.add(createDurationPanel(String.valueOf(match.getDuration())));
+    detailPanel.add(createScoresPanel(Engine.getInstance().getMatchPlayers(match.getId()), Engine.getInstance().getMatchPoints(match.getId())));
+
+    JPanel emptyPanel = new JPanel(); // Crea un pannello vuoto
+emptyPanel.setPreferredSize(new Dimension(0, 50)); // Imposta la dimensione del pannello vuoto
+    detailPanel.add(emptyPanel); // Aggiungi il pannello vuoto tra scoresPanel e winnerPanel
+
+    detailPanel.add(createWinnerPanel(Engine.getInstance().getMatchWinners(match.getId())));
 
     return detailPanel;
 }
@@ -101,10 +106,10 @@ private JPanel createDurationPanel(String duration) {
 private JPanel createScoresPanel(ArrayList<Player> players, ArrayList<Integer> points) {
     JPanel scoresPanel = new JPanel();
     scoresPanel.setLayout(new BoxLayout(scoresPanel, BoxLayout.Y_AXIS));
-    //TODO
-    for(int i = 0; i<players.size(); i++){
+    for(int i=0; i<players.size(); i++){
         JLabel scoreLabel = new JLabel(players.get(i).getNickname() + ": " + points.get(i));
-        scoreLabel.setFont(new Font("Arial", Font.PLAIN, 24));
+        scoreLabel.setFont(new Font("Arial", Font.PLAIN, 30));
+        scoreLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         scoresPanel.add(scoreLabel);
     }
     return scoresPanel;
@@ -125,7 +130,8 @@ private JPanel createWinnerPanel(ArrayList<Player> winners) {
         }
     }
     JLabel winnerLabel = new JLabel(winnersString.toString());
-    winnerLabel.setFont(new Font("Arial", Font.PLAIN, 30));
+    winnerLabel.setFont(new Font("Arial", Font.PLAIN, 36)); // Aumenta la dimensione del font
+    winnerLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Centra il testo
     winnerPanel.add(winnerLabel);
     return winnerPanel;
 }

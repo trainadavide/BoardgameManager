@@ -90,4 +90,8 @@ public class Match {
     public void setDate(Date date) {
         this.date = date;
     }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
 }

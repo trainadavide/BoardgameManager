@@ -401,6 +401,34 @@ public class Engine {
     }
 
 
+    public ArrayList<Player> getMatchPlayers(int matchId) {
+        MatchPlayerService matchPlayerService = (MatchPlayerService) sf.getService(sf.MATCH_PLAYER_SERVICE);
+        ResultSet rs = matchPlayerService.getMatchDetailsById(matchId);
+        PlayerService playerService = (PlayerService) sf.getService(sf.PLAYER_SERVICE);
+        ArrayList<Player> players = new ArrayList<>();
+        try {
+            while (rs.next()) {
+                players.add(new Player(rs.getInt("playerid"), playerService.getNicknameById(rs.getInt("playerid"))));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return players;
+    }
+
+    public ArrayList<Integer> getMatchPoints(int matchId) {
+        MatchPlayerService matchPlayerService = (MatchPlayerService) sf.getService(sf.MATCH_PLAYER_SERVICE);
+        ResultSet rs = matchPlayerService.getMatchDetailsById(matchId);
+        ArrayList<Integer> points = new ArrayList<>();
+        try {
+            while (rs.next()) {
+                points.add(rs.getInt("score"));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return points;
+    }
 }
 
 

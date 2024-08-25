@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class MatchService {
+public class  MatchService {
     private MatchDAO matchDAO;
     private MatchPlayerService matchPlayerService;
 
@@ -76,6 +76,7 @@ public class MatchService {
                 matchId = rs.getInt("matchid");
                 m = new Match(matchId, bg);
                 m.setDate(rs.getDate("date"));
+                m.setDuration(rs.getInt("duration"));
                 matchDetails = matchPlayerService.getMatchDetailsById(matchId);
                 Player p;
                 while (matchDetails.next()){
