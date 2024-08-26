@@ -49,7 +49,7 @@ public class PlayersView extends JFrame {
        }
 
        String playerName = "<html><div style='text-align: center;'>" +
-            "<span style='font-size:20px;'>" + // Riduzione della dimensione del font
+            "<span style='font-size:20px;'>" +
             player.getNickname().toUpperCase() + "</div></html>";
 
     JLabel playerLabel = new JLabel(playerName, SwingConstants.CENTER);
