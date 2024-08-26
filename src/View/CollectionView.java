@@ -72,16 +72,17 @@ public class CollectionView extends JFrame {
     for (int i = 0; i<4; i++)
         removePanel.add(new JPanel());
     JButton button;
+    PageNavigation pageNavigationController = PageNavigation.getIstance(this);
     if (addMatch) {
         button = createButton("Select", null, () -> {
-            //TODO
+            Engine.getInstance().setSelectedGame(gameId);
+            pageNavigationController.navigateToAddMatchView();
         });
         button.setBackground(new Color(133, 239, 47));
 
     } else {
         button = createButton("Remove", null, () -> {
             Engine.getInstance().removeFromCollection(gameId);
-            PageNavigation pageNavigationController = PageNavigation.getIstance(this);
             pageNavigationController.navigateToCollection(false);
 
         });
@@ -120,7 +121,9 @@ public class CollectionView extends JFrame {
 
     JPanel collectionPanel = createCollectionPanel();
     JScrollPane scrollPane = new JScrollPane(collectionPanel);
-    contentPanel.add(scrollPane);
+        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS); // Aggiungi questa linea
+
+        contentPanel.add(scrollPane);
 
     return contentPanel;
 }

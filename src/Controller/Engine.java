@@ -429,6 +429,16 @@ public class Engine {
         }
         return points;
     }
+
+    public void setSelectedGame(Integer gameId) {
+        BoardgameService boardgameService = (BoardgameService) sf.getService(sf.BOARDGAME_SERVICE);
+        boardgameService.setGameSelected(gameId);
+    }
+
+    public Boardgame getSelectedGame() {
+        BoardgameService boardgameService = (BoardgameService) sf.getService(sf.BOARDGAME_SERVICE);
+        return boardgameService.getGameSelected();
+    }
 }
 
 

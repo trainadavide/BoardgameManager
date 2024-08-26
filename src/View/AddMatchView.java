@@ -2,6 +2,7 @@ package View;
 
 import Controller.Engine;
 import Controller.PageNavigation;
+import Model.Boardgame;
 import Model.Match;
 import Model.MatchLog;
 import Model.Player;
@@ -17,7 +18,10 @@ public class AddMatchView extends JFrame {
 
     private JButton addMatchButton;
 
+    private Boardgame selectedGame;
+
     public AddMatchView() {
+        this.selectedGame = Engine.getInstance().getSelectedGame();
         setupWindow();
         JPanel mainPanel = createMainPanel();
         add(mainPanel);
@@ -39,12 +43,34 @@ public class AddMatchView extends JFrame {
         JPanel matchesPanel = new JPanel();
         matchesPanel.setLayout(new BoxLayout(matchesPanel, BoxLayout.Y_AXIS));
 
-        JButton selectGameButton = new JButton("Select Game");
-        selectGameButton.addActionListener(e -> {
-            PageNavigation pageNavigationController = PageNavigation.getIstance(this);
-            pageNavigationController.navigateToCollection(true);
-        });
-        matchesPanel.add(selectGameButton);
+        if(selectedGame!=null){
+            try {
+                URL url = new URL(selectedGame.getUrl());
+                ImageIcon gameIcon = new ImageIcon(url);
+                JLabel gameImageLabel = new JLabel(gameIcon);
+                matchesPanel.add(gameImageLabel);
+            } catch (MalformedURLException e) {
+                System.err.println("Errore durante il caricamento dell'immagine del gioco: " + e.getMessage());
+            }
+            JLabel gameLabel = new JLabel(selectedGame.getName());
+            gameLabel.setFont(new Font("Arial", Font.BOLD, 24));
+            matchesPanel.add(gameLabel);
+            JButton xButton = new JButton("X");
+            xButton.addActionListener(e -> {
+                Engine.getInstance().setSelectedGame(null);
+                PageNavigation pageNavigationController = PageNavigation.getIstance(this);
+                pageNavigationController.navigateToAddMatchView();
+            });
+            matchesPanel.add(xButton);
+        }
+        else {
+            JButton selectGameButton = new JButton("Select Game");
+            selectGameButton.addActionListener(e -> {
+                PageNavigation pageNavigationController = PageNavigation.getIstance(this);
+                pageNavigationController.navigateToCollection(true);
+            });
+            matchesPanel.add(selectGameButton);
+        }
 
         return matchesPanel;
     }
