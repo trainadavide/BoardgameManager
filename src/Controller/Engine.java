@@ -439,6 +439,11 @@ public class Engine {
         BoardgameService boardgameService = (BoardgameService) sf.getService(sf.BOARDGAME_SERVICE);
         return boardgameService.getGameSelected();
     }
+
+    public int getPlayerIdByNickname(String nickname){
+        PlayerService playerService = (PlayerService) sf.getService(sf.PLAYER_SERVICE);
+        return playerService.getPlayerIdByNickname(nickname);
+    }
 }
 
 

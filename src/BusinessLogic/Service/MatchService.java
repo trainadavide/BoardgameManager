@@ -35,7 +35,8 @@ public class  MatchService {
 
     public boolean addMatch(int gameId, int[] playersId, int[] points, Date date, int duration) {
         try {
-            matchDAO.addMatch(gameId, playersId, points, date, duration, user.getId());
+            java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+            matchDAO.addMatch(gameId, playersId, points, sqlDate, duration, user.getId());
             int matchId = matchDAO.mostRecentlyAdded(user.getId());
             Boardgame bg = boardgameService.createBoardgameFromId(gameId);
             Match m = new Match(matchId, bg);
@@ -81,7 +82,6 @@ public class  MatchService {
                 Player p;
                 while (matchDetails.next()) {
                     playerId = matchDetails.getInt("playerid");
-                    System.out.println(playerService.getNicknameById(playerId));
                     p = new Player(playerId, playerService.getNicknameById(playerId));
                     m.addPlayer(p, matchDetails.getInt("score"));
                 }

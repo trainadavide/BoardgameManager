@@ -9,9 +9,15 @@ import Model.Player;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Date;
 
 public class AddMatchView extends JFrame {
     private JButton backButton;
@@ -21,6 +27,12 @@ public class AddMatchView extends JFrame {
     private Boardgame selectedGame;
 
     private ArrayList<JComboBox<String>> playerSelectors;
+
+    private ArrayList<JTextField> scoresFields = new ArrayList<>();
+
+    private JTextField durationField;
+
+    private JTextField dateField;
 
 
     public AddMatchView() {
@@ -35,7 +47,6 @@ public class AddMatchView extends JFrame {
     JPanel mainPanel = new JPanel(new BorderLayout());
     JPanel backButtonPanel = createBackButtonPanel();
     JPanel matchesPanel = createMatchesPanel();
-    JPanel addMatchButtonPanel = createAddMatchButtonPanel();
 
     JScrollPane scrollPane = new JScrollPane(matchesPanel);
     scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -43,7 +54,6 @@ public class AddMatchView extends JFrame {
 
     mainPanel.add(backButtonPanel, BorderLayout.WEST);
     mainPanel.add(scrollPane, BorderLayout.CENTER); // Add the JScrollPane instead of the matchesPanel
-    mainPanel.add(addMatchButtonPanel, BorderLayout.EAST);
     return mainPanel;
 }
 
@@ -75,16 +85,12 @@ public class AddMatchView extends JFrame {
             JPanel durationPanel = new JPanel(new FlowLayout(FlowLayout.LEFT)); // Create a new panel with FlowLayout
             JLabel durationLabel = new JLabel("Duration: "); // Create a new JLabel for "Duration: "
             durationPanel.add(durationLabel); // Add the JLabel to the panel
-            JTextField durationField = new JTextField(5); // Create a new JTextField for the duration input
+            durationField = new JTextField(5); // Create a new JTextField for the duration input
             durationPanel.add(durationField); // Add the JTextField to the panel
             matchesPanel.add(durationPanel); // Add the panel to the matchesPanel
 
-            JPanel datePanel = new JPanel(new FlowLayout(FlowLayout.LEFT)); // Create a new panel with FlowLayout
-            JLabel dateLabel = new JLabel("Date: "); // Create a new JLabel for "Date: "
-            datePanel.add(dateLabel); // Add the JLabel to the panel
-            JTextField dateField = new JTextField(10); // Create a new JTextField for the date input
-            datePanel.add(dateField); // Add the JTextField to the panel
-            matchesPanel.add(datePanel); // Add the panel to the matchesPanel
+            JPanel addButtonPanel = createAddMatchButtonPanel();
+            matchesPanel.add(addButtonPanel);
 
 
         }
@@ -134,6 +140,7 @@ public class AddMatchView extends JFrame {
 
                 JTextField scoreField = new JTextField(5); // Create a new JTextField for the score input
                 playerPanel.add(scoreField); // Add the JTextField to the panel
+                scoresFields.add(scoreField);
 
                 selectorsPanel.add(playerPanel); // Add the panel to the selectorsPanel
             }
@@ -149,7 +156,6 @@ public class AddMatchView extends JFrame {
         }
     }
 
-
     private JPanel createBackButtonPanel() {
         JPanel buttonPanel = new JPanel(new FlowLayout());
         backButton = new JButton("Back");
@@ -163,7 +169,31 @@ public class AddMatchView extends JFrame {
 
     private JPanel createAddMatchButtonPanel(){
         JPanel buttonPanel = new JPanel(new FlowLayout());
-        //TODO
+        addMatchButton = new JButton("Add");
+
+        addMatchButton.addActionListener(e -> {
+            int[] playersId = new int[selectedGame.getMaxPlayers()];
+            int[] scores = new int[selectedGame.getMaxPlayers()];
+            int pId;
+            for (int i=0; i<selectedGame.getMaxPlayers(); i++){
+                if(playerSelectors.get(i).getName() != "NULL") {
+                    pId = Engine.getInstance().getPlayerIdByNickname(playerSelectors.get(i).getSelectedItem().toString());
+                    playersId[i] = pId;
+                    scores[i] = Integer.parseInt(scoresFields.get(i).getText());
+                }
+            }
+            int duration = Integer.parseInt(durationField.getText());
+
+            LocalDate localDate = LocalDate.now();
+            LocalDateTime localDateTime = localDate.atStartOfDay();
+            Date date = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
+
+            Engine.getInstance().addMatch(selectedGame.getId(),playersId,scores,date,duration);
+            PageNavigation pageNavigationController = PageNavigation.getIstance(this);
+            pageNavigationController.navigateToMatch();
+        });
+        addMatchButton.setSize(100,50);
+        buttonPanel.add(addMatchButton);
         return buttonPanel;
     }
 

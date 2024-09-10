@@ -52,13 +52,15 @@ public class PlayerService {
         }
     }
 
-    public ResultSet getPlayerByNickname(String nickname){
+    public int getPlayerIdByNickname(String nickname){
         try {
-            return playerDAO.getPlayerByNickname(nickname, user.getId());
+            ResultSet rs = playerDAO.getPlayerByNickname(nickname, user.getId());
+            rs.next();
+            return rs.getInt("playerid");
         } catch (SQLException e) {
             System.err.println("Errore durante la lettura dei player: "+e.getMessage());
         }
-        return null;
+        return 0;
     }
 
     public ResultSet getAllPlayers(){
