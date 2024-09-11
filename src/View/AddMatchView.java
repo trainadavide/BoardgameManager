@@ -99,6 +99,7 @@ public class AddMatchView extends JFrame {
             selectGameButton.addActionListener(e -> {
                 PageNavigation pageNavigationController = PageNavigation.getIstance(this);
                 pageNavigationController.navigateToCollection(true);
+                this.dispose();
             });
             matchesPanel.add(selectGameButton);
         }
@@ -176,11 +177,17 @@ public class AddMatchView extends JFrame {
             int[] scores = new int[selectedGame.getMaxPlayers()];
             int pId;
             for (int i=0; i<selectedGame.getMaxPlayers(); i++){
-                if(playerSelectors.get(i).getName() != "NULL") {
+                if(playerSelectors.get(i).getSelectedItem()!="NULL") {
                     pId = Engine.getInstance().getPlayerIdByNickname(playerSelectors.get(i).getSelectedItem().toString());
                     playersId[i] = pId;
                     scores[i] = Integer.parseInt(scoresFields.get(i).getText());
                 }
+                else{
+                    playersId[i] = 0;
+                    scores[i] = 0;
+                }
+
+
             }
             int duration = Integer.parseInt(durationField.getText());
 
@@ -191,6 +198,7 @@ public class AddMatchView extends JFrame {
             Engine.getInstance().addMatch(selectedGame.getId(),playersId,scores,date,duration);
             PageNavigation pageNavigationController = PageNavigation.getIstance(this);
             pageNavigationController.navigateToMatch();
+            this.dispose();
         });
         addMatchButton.setSize(100,50);
         buttonPanel.add(addMatchButton);

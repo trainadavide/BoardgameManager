@@ -25,12 +25,14 @@ public class MatchDAO {
         matchId = rs.getInt("massimo");
 
         for (int i=0; i<playersId.length; i++){
-            query = "INSERT INTO match_players (matchid, playerid, score) VALUES (?, ?, ?)";
-            ps = ManagerDAO.getConnection().prepareStatement(query);
-            ps.setInt(1,matchId);
-            ps.setInt(2, playersId[i]);
-            ps.setInt(3, points[i]);
-            ps.executeUpdate();
+            if(playersId[i] != 0) {
+                query = "INSERT INTO match_players (matchid, playerid, score) VALUES (?, ?, ?)";
+                ps = ManagerDAO.getConnection().prepareStatement(query);
+                ps.setInt(1, matchId);
+                ps.setInt(2, playersId[i]);
+                ps.setInt(3, points[i]);
+                ps.executeUpdate();
+            }
         }
     }
 

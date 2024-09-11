@@ -40,10 +40,14 @@ public class  MatchService {
             int matchId = matchDAO.mostRecentlyAdded(user.getId());
             Boardgame bg = boardgameService.createBoardgameFromId(gameId);
             Match m = new Match(matchId, bg);
+            m.setDate(sqlDate);
+            m.setDuration(duration);
             Player p;
             for (int i = 0; i < playersId.length; i++) {
-                p = new Player(playersId[i], playerService.getNicknameById(playersId[i]));
-                m.addPlayer(p, points[i]);
+                if(playersId[i]!=0) {
+                    p = new Player(playersId[i], playerService.getNicknameById(playersId[i]));
+                    m.addPlayer(p, points[i]);
+                }
             }
             user.getMatchLog().addMatch(m);
             return true;
