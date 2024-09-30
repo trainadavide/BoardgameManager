@@ -8,7 +8,7 @@ public class User {
     private Collection collection;
     private Wishlist wishlist;
     private MatchLog matchLog;
-    private Friends friends;
+    private FriendGroup friends;
 
     public User(int id, String email, String password, String username){
         this.id = id;
@@ -18,14 +18,14 @@ public class User {
         collection = new Collection();
         wishlist = new Wishlist();
         matchLog = new MatchLog();
-        friends = new Friends();
+        friends = new FriendGroup();
     }
 
     public User(){
         collection = new Collection();
         wishlist = new Wishlist();
         matchLog = new MatchLog();
-        friends = new Friends();
+        friends = new FriendGroup();
     }
 
     public Collection getCollection() {
@@ -40,7 +40,7 @@ public class User {
         return matchLog;
     }
 
-    public Friends getFriends() {
+    public FriendGroup getFriends() {
         return friends;
     }
 

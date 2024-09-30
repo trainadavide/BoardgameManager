@@ -2,12 +2,10 @@ package View;
 
 import Controller.Engine;
 import Controller.PageNavigation;
-import Model.Collection;
-import Model.Friends;
+import Model.FriendGroup;
 import Model.Player;
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -26,7 +24,7 @@ public class PlayersView extends JFrame {
         JPanel playersPanel = new JPanel();
         playersPanel.setLayout(new BoxLayout(playersPanel, BoxLayout.Y_AXIS));
 
-        Friends friends = Engine.getInstance().getUser().getFriends();
+        FriendGroup friends = Engine.getInstance().getUser().getFriends();
         for(int i=0; i<friends.friendListSize(); i++){
             playersPanel.add(createPlayerCard(friends.getPlayer(i)));
         }

@@ -9,6 +9,8 @@ public class ManagerDAO {
     private static final String USERNAME = "postgres";
     private static final String PASSWORD = "root";
 
+    private static Connection instance = null;
+
     public static ResultSet result(String query) {
         Connection connection = null;
         ResultSet resultSet = null;
@@ -54,6 +56,13 @@ public class ManagerDAO {
         return resultSet;
     }
     public static Connection getConnection() throws SQLException {
+        if(instance==null){
+            instance = createConnection();
+        }
+        return instance;
+    }
+
+    public static Connection createConnection() throws SQLException{
         try {
             // Load the JDBC driver for PostgreSQL
             Class.forName("org.postgresql.Driver");

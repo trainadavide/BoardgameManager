@@ -2,7 +2,7 @@ package Model;
 
 import java.util.ArrayList;
 
-public class Friends {
+public class FriendGroup {
     private ArrayList<Player> friends = new ArrayList<Player>();
 
     public void loadFriends(ArrayList<Player> friends){
